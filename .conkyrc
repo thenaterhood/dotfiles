@@ -1,0 +1,109 @@
+# Conky, a system monitor, based on torsmo
+#
+# Any original torsmo code is licensed under the BSD license
+#
+# All code written since the fork of torsmo is licensed under the GPL
+#
+# Please see COPYING for details
+#
+# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+# Copyright (c) 2005-2010 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Transparency 
+own_window yes
+own_window_transparent yes
+own_window_argb_visual yes
+own_window_type normal
+own_window_class conky-semi
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+# End section
+alignment top_right
+background no
+border_width 1
+cpu_avg_samples 2
+default_color white
+default_outline_color black
+default_shade_color black
+draw_borders no
+draw_graph_borders yes
+draw_outline yes
+draw_shades no
+use_xft yes
+xftfont Droid Sans:size=12
+gap_x 5
+gap_y 0
+minimum_size 10 10
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+out_to_stderr no
+extra_newline no
+own_window yes
+own_window_class Conky
+own_window_type desktop
+stippled_borders 0
+update_interval 1.0
+uppercase no
+use_spacer none
+show_graph_scale no
+show_graph_range no
+double_buffer yes
+green1 b9d775
+color2 F8DF58
+radiospace Radio Space
+
+TEXT
+# Name and sysname
+#
+${font Radio Space:size=25}${color b9d775}${execi 3600 whoami}${font Radio Space:size=12}${color b9d775}@$nodename
+${font Radio Space:size=11.5}${color grey}$sysname $kernel on $machine
+${color grey}$hr
+#
+# IP addresses
+#
+${color grey}Wireless IP (${wireless_essid wlan0}):  $alignr $color ${addr wlan0}
+${color grey}Wired IP: $alignr $color ${addr eth0}
+${color grey}Public IP: $alignr $color ${execi 60 curl http://icanhazip.com}
+${color grey}$hr
+#
+# Basic system info
+#
+${color grey}Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):${else}:${endif} $alignr ${if_match ${battery_percent BAT0} <= 20}${color3}${else}${if_existing /sys/class/power_supply/ADP1/online 1}$color${battery_percent}%${else}${color1}${battery_percent}%${endif}${endif}
+#${color grey}Frequency (in MHz):$color $freq
+#${color grey}Frequency (in GHz):$color $freq_g
+${color grey}RAM Usage:$color $alignr $memperc%
+#${color grey}Swap Usage:$color $alignr $swapperc%
+${color grey}CPU Usage:$color $alignr $cpu%
+${color grey}Up: $alignr $color $uptime
+${color grey}Processes:$color $alignr $processes
+#  ${color grey}Running:$color $running_processes
+${color grey}$hr
+#
+# File system info
+#
+${color grey}Primary file systems:
+${color grey}/ $alignr $color${fs_used /}/${fs_size /} (${fs_used_perc /}%)
+#${fs_bar 6 /}
+${color grey}/home $alignr $color${fs_used /home}/${fs_size /home} (${fs_used_perc /home}%)
+#${fs_bar 6 /home}
+${color grey}Windows $alignr $color${fs_used /mnt/windows_seven/}/${fs_size /mnt/windows_seven/} (${fs_used_perc /mnt/windows_seven/}%)
+#${fs_bar 6 /mnt/windows_seven/}
+#$hr
+
+#${font radiospace:size=14}${color b9d775}${time %A %d %Y}
+#${font Radio Space:size=40}${color b9d775}${time %H:%M}
+
+
