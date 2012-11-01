@@ -43,7 +43,7 @@ autohide = 0
 autohide_show_timeout = 0.1
 autohide_hide_timeout = .5
 autohide_height = 2
-strut_policy = follow_size
+strut_policy = minimum
 
 # Taskbar
 taskbar_mode = single_desktop
