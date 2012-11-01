@@ -66,7 +66,7 @@ color2 F8DF58
 radiospace Radio Space
 
 TEXT
-# Name and sysname
+# Shows the username and sysname
 #
 ${font Radio Space:size=25}${color b9d775}${execi 3600 whoami}${font Radio Space:size=12}${color b9d775}@$nodename
 ${font Radio Space:size=11.5}${color grey}$sysname $kernel on $machine
@@ -81,28 +81,48 @@ ${color grey}$hr
 #
 # Basic system info
 #
+## Shows the battery state and if it's plugged in or at a critical level
 ${color grey}Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):${else}:${endif} $alignr ${if_match ${battery_percent BAT0} <= 20}${color3}${else}${if_existing /sys/class/power_supply/ADP1/online 1}$color${battery_percent}%${else}${color1}${battery_percent}%${endif}${endif}
+
+## Shows the CPU frequency
 #${color grey}Frequency (in MHz):$color $freq
 #${color grey}Frequency (in GHz):$color $freq_g
+
+## Shows the RAM usage as a percentage
 ${color grey}RAM Usage:$color $alignr $memperc%
 #${color grey}Swap Usage:$color $alignr $swapperc%
+
+## Shows the CPU usage as a percentage
 ${color grey}CPU Usage:$color $alignr $cpu%
+
+## Shows the system uptime
 ${color grey}Up: $alignr $color $uptime
+
+## Shows the number of current processes
 ${color grey}Processes:$color $alignr $processes
 #  ${color grey}Running:$color $running_processes
+
+## Creates a horizontal line
 ${color grey}$hr
+
 #
-# File system info
+# Filesystem info
 #
 ${color grey}Primary file systems:
+## Shows the space used as a ratio and a percentage of /
 ${color grey}/ $alignr $color${fs_used /}/${fs_size /} (${fs_used_perc /}%)
 #${fs_bar 6 /}
+
+## Shows the space used on /home
 ${color grey}/home $alignr $color${fs_used /home}/${fs_size /home} (${fs_used_perc /home}%)
 #${fs_bar 6 /home}
+
+## Shows the space used on a drive or partition mounted in /mnt/windows_seven
 ${color grey}Windows $alignr $color${fs_used /mnt/windows_seven/}/${fs_size /mnt/windows_seven/} (${fs_used_perc /mnt/windows_seven/}%)
 #${fs_bar 6 /mnt/windows_seven/}
 #$hr
 
+## Shows the current time and date
 #${font radiospace:size=14}${color b9d775}${time %A %d %Y}
 #${font Radio Space:size=40}${color b9d775}${time %H:%M}
 
