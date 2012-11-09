@@ -9,10 +9,10 @@ Contents
 
 Configuration data for 
 
-tint2/		configuration for tint2 \n
-.conkyrc	conky configuration \n
-.bashrc 	bash aliases \n
-.idlerc/ 	configuration for python3 IDLE (dark color scheme) \n
+    tint2/		configuration for tint2
+    .conkyrc	conky configuration
+    .bashrc 	bash aliases and prompt customization
+    .idlerc/ 	configuration for python3 IDLE (dark color scheme)
 
 Installation
 ------------
@@ -33,7 +33,7 @@ anything.
 To manually install the configurations, you must check out the repository
 from github using:
 
-	git clone --recursive https://github.com/thenaterhood/dot-conf.git ~/dot-conf;
+	git clone --recursive https://github.com/thenaterhood/dot-conf.git ~/dot-conf
 	
 This command clones the repository to the dot-conf folder in your user directory.
 	
@@ -49,7 +49,7 @@ After you've downloaded and initialized the repository, you can link the
 configuration files to their proper locations using the commands below.
 These commands create a symlink in the proper location that points to the repository
 on your computer.  You can update your dot-conf by running
-geany
+
 	cd ~/dot-conf
 	git fetch
 	git pull
