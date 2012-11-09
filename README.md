@@ -17,20 +17,7 @@ Configuration data for
 Installation
 ------------
 
-To install the dot-conf files automatically, open a terminal and navigate
-to the dot-conf folder.  Once there, run
-
-    ./install.sh
-    
-This will create symlinks to all of the config files stored in the dot-conf
-folder in the appropriate locations in your user directory.  Note that
-this will fail if the files already exist there; you will probably need 
-to manually delete those first.  If you were intending to replace them
-or you didn't expect them to be there (ie, you did not make them or customize
-any of the files) then you should be able to do this safely without losing
-anything.
-
-To manually install the configurations, you must check out the repository
+To install the configurations, you must check out the repository
 from github using:
 
 	git clone --recursive https://github.com/thenaterhood/dot-conf.git ~/dot-conf
@@ -55,6 +42,20 @@ on your computer.  You can update your dot-conf by running
 	git pull
 	
 You may want to learn more github commands in order to update specific files.
+
+To install the dot-conf files automatically, open a terminal and navigate
+to the dot-conf folder.  Once there, run
+
+    ./install.sh
+    
+This will create symlinks to all of the config files stored in the dot-conf
+folder in the appropriate locations in your user directory.  Note that 
+this will rename any affected configuration files that already exist and install
+the dot-conf files in their place as symlinks.  Although this should be safe,
+as with anything you should back them up just in case.  Running the script
+more than once will replace the backup copies of the files, so DO NOT do it
+unless you really need to.  You can remove the .BAK files it moves things to
+if you don't need them.
 
 ### tint2
 
