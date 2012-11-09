@@ -1,8 +1,13 @@
 
-# Check for an interactive session
-PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '
-[ -z "$PS1" ] && return
-PS1='[\u@\h \W]\$ '
+# Changes the prompt text.  See bash man page for codes.
+#export PS1="\e[1;34m(\t)\e[0;32m \u\e[m\e[0;32m@\h \W \$ \e[m >\[\033[0m\] "
+ROOT_UID=0
+if [ "$UID" -eq "$ROOT_UID" ]
+then
+PS1="\[\033[31;1m\](\t)\[\033[0m\] \u@\h \\$\w \$ \[\033[0m\]"
+else
+PS1="\[\033[34;1m\](\t)\[\033[0m\] \[\033[0;32m\]\u@\h \\$\w> \[\033[0m\]\[\033[0m\]"
+fi
 
 # General aliases
 alias ls='ls --color=auto'
@@ -21,6 +26,7 @@ alias lagrep='ls -alh | grep'
 alias lg='ls | grep'
 alias llg='ls -lh | grep'
 alias lag='ls -alh | grep'
+alias python='python3'
 
 # Scripts
 alias displays='bash /home/nate/.apps/display_configurator.sh'
