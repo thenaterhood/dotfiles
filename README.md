@@ -9,13 +9,26 @@ Contents
 
 Configuration data for 
 
-tint2/		configuration for tint2
-.conkyrc	conky configuration
-.bashrc 	bash aliases
-.idlerc/ 	configuration for python3 IDLE (dark color scheme)
+tint2/		configuration for tint2 \n
+.conkyrc	conky configuration \n
+.bashrc 	bash aliases \n
+.idlerc/ 	configuration for python3 IDLE (dark color scheme) \n
 
 Installation
 ------------
+
+To install the dot-conf files automatically, open a terminal and navigate
+to the dot-conf folder.  Once there, run
+
+    ./install.sh
+    
+This will create symlinks to all of the config files stored in the dot-conf
+folder in the appropriate locations in your user directory.  Note that
+this will fail if the files already exist there; you will probably need 
+to manually delete those first.  If you were intending to replace them
+or you didn't expect them to be there (ie, you did not make them or customize
+any of the files) then you should be able to do this safely without losing
+anything.
 
 To manually install the configurations, you must check out the repository
 from github using:
@@ -26,8 +39,8 @@ This command clones the repository to the dot-conf folder in your user directory
 	
 followed by 
 	
-	cd ~/dot-conf; \
-	git submodule update --init --recursive;
+	cd ~/dot-conf
+	git submodule update --init --recursive
 	
 The --init flag initizlizes the submodule repositories and the --recursive flag
 makes sure that nested submodules are initialized and updated as well.
@@ -36,25 +49,25 @@ After you've downloaded and initialized the repository, you can link the
 configuration files to their proper locations using the commands below.
 These commands create a symlink in the proper location that points to the repository
 on your computer.  You can update your dot-conf by running
-
-	cd ~/dot-conf; \
-	git fetch; \
-	git pull;
+geany
+	cd ~/dot-conf
+	git fetch
+	git pull
 	
 You may want to learn more github commands in order to update specific files.
 
 ### tint2
 
-	ln -s ~/dot-conf/tint2 ~/.config/tint2;
+	ln -s ~/dot-conf/tint2 ~/.config/tint2
 	
 ### conky
 
-	ln -s ~/dot-conf/.conkyrc ~/.conkyrc;
+	ln -s ~/dot-conf/conkyrc ~/.conkyrc
 	
 ### bash aliases
 
-	ln -s ~/dot-conf/.bashrc ~/.bashrc;
+	ln -s ~/dot-conf/bashrc ~/.bashrc
 	
 ### IDLE
 	
-	ln -s ~/dot-conf/.idlerc ~/.idlerc;
+	ln -s ~/dot-conf/idlerc ~/.idlerc
