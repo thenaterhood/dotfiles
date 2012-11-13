@@ -39,7 +39,7 @@ alias displays='bash /home/$username/.apps/display_configurator.sh'
 alias touchpad='bash /home/$username/.apps/touchpad_switch.sh'
 alias rip='bash /home/$username/.apps/audio_ripper.sh'
 alias backup='sudo bash /home/$username/.apps/backup/backup.sh'
-alias sleep='sudo bash /home/$username/.apps/sleep.sh'
+alias suspend='sudo bash /home/$username/.apps/sleep.sh'
 
 # Software-specific commands
 alias l='slimlock'

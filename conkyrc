@@ -68,12 +68,13 @@ radiospace Radio Space
 TEXT
 # Name and sysname
 #
-${font Radio Space:size=25}${color b9d775}${execi 3600 whoami}${font Radio Space:size=12}${color b9d775}@$nodename
-${font Radio Space:size=11.5}${color grey}$sysname $kernel on $machine
-${color grey}$hr
+${font Radio Space:size=25}${color b9d775}${execi 3600 whoami}${color b9d775}
+${font Radio Space:size=14}${color b9d775}$sysname $kernel
+#${color grey}$hr
 #
 # IP addresses
 #
+${font Ubuntu:size=11.5}
 ${color grey}Wireless IP (${wireless_essid wlan0}):  $alignr $color ${addr wlan0}
 ${color grey}Wired IP: $alignr $color ${addr eth0}
 ${color grey}Public IP: $alignr $color ${execi 60 curl http://icanhazip.com}
@@ -81,7 +82,7 @@ ${color grey}$hr
 #
 # Basic system info
 #
-${color grey}Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):${else}:${endif} $alignr ${if_match ${battery_percent BAT0} <= 20}${color3}${else}${if_existing /sys/class/power_supply/ADP1/online 1}$color${battery_percent}%${else}${color1}${battery_percent}%${endif}${endif}
+${color grey}Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):${else}:${endif} $alignr ${if_match ${battery_percent BAT0} <= 20}${color ff0000}${battery_percent}%${else}${if_existing /sys/class/power_supply/ADP1/online 1}$color${battery_percent}%${else}${color1}${battery_percent}%${endif}${endif}
 #${color grey}Frequency (in MHz):$color $freq
 #${color grey}Frequency (in GHz):$color $freq_g
 ${color grey}RAM Usage:$color $alignr $memperc%
@@ -103,7 +104,7 @@ ${color grey}Windows $alignr $color${fs_used /mnt/windows_seven/}/${fs_size /mnt
 #${fs_bar 6 /mnt/windows_seven/}
 #$hr
 
-#${font radiospace:size=14}${color b9d775}${time %A %d %Y}
-#${font Radio Space:size=40}${color b9d775}${time %H:%M}
+${font radiospace:size=14}${color b9d775}${time %A %d %Y}
+${font Radio Space:size=25}${color b9d775}${time %H:%M}
 
 
