@@ -9,9 +9,9 @@ username=`whoami`
 # Changes the prompt text.  See bash man page for codes.
 ROOT_UID=0
 if [ "$UID" -eq "$ROOT_UID" ]; then
-    PS1="$RED(\t)$NORMAL \u@\h \\$\w \$ $NORMAL"
+    PS1="$RED(\t) \u@\h $RED\\w\\$ $NORMAL"
 else
-    PS1="$BLUE(\t)$NORMAL $GREEN\u@\h \\$\w> $NORMAL"
+    PS1="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
 fi
 
 # General aliases
@@ -44,6 +44,8 @@ alias suspend='sudo bash /home/$username/.apps/sleep.sh'
 # Software-specific commands
 alias l='slimlock'
 alias Syu='sudo pacman -Syu'
+alias pacS='sudo pacman -S'
+alias pacR='sudo pacman -Rs'
 alias Syua='sudo yaourt -Syua'
 alias virtualbox='gksudo VirtualBox &'
 alias fidget='figlet'
