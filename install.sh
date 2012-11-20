@@ -15,8 +15,8 @@ read -p "Hit enter to continue."
 #####################################################
 user=$USER
 basepath="/home/$user"
-mkdir ~/dotfiles.old
-mkdir ~/.config
+mkdir ~/dotfiles.old 2>/dev/null
+mkdir ~/.config 2>/dev/null
 
 
 #####################################################
