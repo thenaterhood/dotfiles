@@ -8,39 +8,41 @@ echo "all the files, do the installation manually."
 echo ""
 read -p "Hit enter to continue."
 
-# Creates symlinks to the files, renaming existing files/folders if they exist
-if [ -f ~/.bashrc ]
-then
-    echo "You already have a bashrc configuration, moving it to bashrc.BAK."
-    mv ~/.bashrc ~/bashrc.BAK
-fi
-ln -s ~/dot-conf/bashrc ~/.bashrc
+
+#####################################################
+# Sets a few initial variables and makes folders    #
+# that the script expects to exist                  #
+#####################################################
+user=$USER
+basepath="/home/$user"
+mkdir ~/dotfiles.old
+mkdir ~/.config
 
 
-if [ -d ~/.config/tint2 ]
-then
-    echo "You already have a tint2 configuration, moving it to tint2.BAK."
-    mv ~/.config/tint2 ~/.config/tint2.BAK
-fi
-ln -s ~/dot-conf/tint2 ~/.config/tint2
+#####################################################
+# Iterates through the list of targets in locations #
+#####################################################
+while read p; do
+    # Breaks the location line in the file to its location and basename
+    file=`basename $p`
+    target=$p
+    
+    # Picks out the dot-conf file that should be linked
+    if [ `echo $file | cut -c 1` = "." ]; then
+        local=`echo $file | cut -c 2-40`
+    else
+        local=$file
+    fi
+    
+    # Moves the existing config file if it exists
+    if [ -e "/home/$user/$target" ]; 
+    then
+        echo "$file exists, moving it to ~/dotfiles.old"
+        mv /home/$user/$target /home/$user/dotfiles.old/
+    fi
+    
+    # Installs the new config file by linking it to the dot-conf folder
+    ln -s /home/$user/dot-conf/$local /home/$user/$target
+    echo "Installed $p to ~/$target"
 
-
-if [ -f ~/.conkyrc ]
-then
-    echo "You already have a conky configuration, moving it to conkyrc.BAK."
-    mv ~/.conkyrc ~/conkyrc.BAK
-fi
-ln -s ~/dot-conf/conkyrc ~/.conkyrc
-
-
-if [ -d ~/.idlerc ]
-then
-    echo "You already have a idle configuration, moving it to idlerc.BAK"
-    mv ~/.idlerc ~/idlerc.BAK
-fi
-ln -s ~/dot-conf/idlerc ~/.idlerc
-
-# Reports that it finished
-echo ""
-echo "Installed dot-conf files.  Restart programs for them to take effect."
-
+done < ./locations
