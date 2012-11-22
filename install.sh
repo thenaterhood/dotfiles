@@ -15,6 +15,7 @@ read -p "Hit enter to continue."
 #####################################################
 user=$USER
 basepath=`pwd`
+home=$HOME
 echo $basepath
 mkdir ~/dotfiles.old 2>/dev/null
 mkdir ~/.config 2>/dev/null
@@ -36,14 +37,14 @@ while read p; do
     fi
     
     # Moves the existing config file if it exists
-    if [ -e "/home/$user/$target" ] || [ -h "/home/$user/$target" ]; 
+    if [ -e "$HOME/$target" ] || [ -h "$HOME/$target" ]; 
     then
         echo "$file exists, moving it to ~/dotfiles.old"
-        mv /home/$user/$target /home/$user/dotfiles.old/
+        mv $HOME/$target $HOME/dotfiles.old/
     fi
     
     # Installs the new config file by linking it to the dot-conf folder
-    ln -s $basepath/$local /home/$user/$target
+    ln -s $basepath/$local $HOME/$target
     echo "Installed $p to ~/$target"
 
 done < ./locations
