@@ -60,11 +60,11 @@ alias :q='exit'
 #####################################################
 # Aliases to call scripts (found in shellzilla repo)#
 #####################################################
-alias displays='bash /home/$username/.apps/display_configurator.sh'
-alias touchpad='bash /home/$username/.apps/touchpad_switch.sh'
-alias rip='bash /home/$username/.apps/audio_ripper.sh'
-alias backup='sudo bash /home/$username/.apps/backup/backup.sh'
-alias suspend='sudo bash /home/$username/.apps/sleep.sh'
+alias displays='bash ~/bin/shellzilla/display_configurator.sh'
+alias touchpad='bash ~/bin/shellzilla/touchpad_switch.sh'
+alias rip='bash ~/bin/shellzilla/audio_ripper.sh'
+alias backup='sudo ~/bin/shellzilla/backup/backup.sh'
+alias suspend='sudo bash ~/bin/shellzilla//sleep.sh'
 
 #####################################################
 # Distro/software specific commands                 #
