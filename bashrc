@@ -64,7 +64,7 @@ alias displays='bash ~/bin/shellzilla/display_configurator.sh'
 alias touchpad='bash ~/bin/shellzilla/touchpad_switch.sh'
 alias rip='bash ~/bin/shellzilla/audio_ripper.sh'
 alias backup='sudo ~/bin/shellzilla/backup/backup.sh'
-alias suspend='sudo bash ~/bin/shellzilla//sleep.sh'
+alias suspend='sudo bash ~/bin/shellzilla/sleep.sh'
 
 #####################################################
 # Distro/software specific commands                 #
