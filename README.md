@@ -14,6 +14,7 @@ Configuration data for
     .bashrc 	bash aliases and prompt customization
     .idlerc/ 	dark color scheme for python's IDLE
     redshift    ready-made redshift conf, uncomment your location
+    .fluxbox/   select fluxbox config files (does NOT include a menu)
 
 Installation
 ------------
@@ -58,6 +59,11 @@ more than once will replace the backup copies of the files, so DO NOT do it
 unless you really need to.  You can remove the dotfiles.old directory it moves things to
 if you don't need them.
 
+Additionally, there are some extra commands you will probably want to run
+after the install script.  In order to generate a fluxbox menu, run
+
+    fluxbox-generate_menu
+
 The script can be run from any location in your home directory so feel free
 to put it in ~/bin, ~/documents, or wherever you'd like to keep it.  If you
 move it, run the install script again and it will replace symlinks to point to its
@@ -84,3 +90,10 @@ To manually install one or all of the files, use the commands below.
 ### Redshift
     
     ln -s ~/dotfiles/redshift.conf ~/.config/redshift.conf
+    
+### Fluxbox
+
+    ln -s ~/dotfiles/fluxbox ~/.fluxbox
+    
+Note: In order to create a fluxbox menu, you will want to run 
+    fluxbox-generate_menu
