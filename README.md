@@ -1,4 +1,4 @@
-dot-conf
+dotfiles
 ========
 
 Version controlled dot configuration files for various Linux software.
@@ -20,11 +20,14 @@ Installation
 ------------
 
 To install the configurations, you must check out the repository
-from github using:
+from github into the directory of your choice using:
 
 	git clone --recursive https://github.com/thenaterhood/dotfiles.git ~/dotfiles
 	
-This command clones the repository to the dot-conf folder in your user directory.
+This command clones the repository to the dotfiles folder in your user directory.
+Note that the rest of these instructions assume you placed the dotfiles folder
+into your user directory, in ~/dotfiles.  If you put it somewhere else, be sure
+to adjust the path whenever the folder is referenced.
 	
 followed by 
 	
@@ -96,4 +99,5 @@ To manually install one or all of the files, use the commands below.
     ln -s ~/dotfiles/fluxbox ~/.fluxbox
     
 Note: In order to create a fluxbox menu, you will want to run 
+
     fluxbox-generate_menu
