@@ -19,6 +19,22 @@ home=$HOME
 mkdir ~/dotfiles.old 2>/dev/null
 mkdir ~/.config 2>/dev/null
 
+NORMAL="\033[0m"
+RED="\033[31;1m"
+GREEN="\033[0;32m"
+BLUE="\033[34;1m"
+YELLOW="\033[0;33m"
+
+ok(){
+    echo "$GREEN ok -$NORMAL";
+}
+notice(){
+    echo "$YELLOW notice -$NORMAL";
+}
+error(){
+    echo "$RED error -$NORMAL";
+}
+
 
 #####################################################
 # Iterates through the list of targets in locations #
@@ -38,12 +54,11 @@ while read p; do
     # Moves the existing config file if it exists
     if [ -e "$HOME/$target" ] || [ -h "$HOME/$target" ]; 
     then
-        echo "$file exists, moving it to ~/dotfiles.old"
-        mv $HOME/$target $HOME/dotfiles.old/
+        echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
+        mv $HOME/$target $HOME/dotfiles.old/ 2>/dev/null || echo -e "$(error) could not move $file out of the way"
     fi
     
     # Installs the new config file by linking it to the dot-conf folder
-    ln -s $basepath/$local $HOME/$target
-    echo "Installed $p to ~/$target"
+    ln -s $basepath/$local $HOME/$target 2>/dev/null && echo -e "$(ok) Installed $p to ~/$target" || echo -e "$(error) could not install $file"
 
 done < ./locations
