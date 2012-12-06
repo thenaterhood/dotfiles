@@ -16,7 +16,6 @@ read -p "Hit enter to continue."
 user=$USER
 basepath=`pwd`
 home=$HOME
-echo $basepath
 mkdir ~/dotfiles.old 2>/dev/null
 mkdir ~/.config 2>/dev/null
 
