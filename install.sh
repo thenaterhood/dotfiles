@@ -25,6 +25,10 @@ GREEN="\033[0;32m"
 BLUE="\033[34;1m"
 YELLOW="\033[0;33m"
 
+
+#####################################################
+# Define a few functions to use later               #
+#####################################################
 ok(){
     echo "$GREEN ok -$NORMAL";
 }
@@ -55,10 +59,10 @@ while read p; do
     if [ -e "$HOME/$target" ] || [ -h "$HOME/$target" ]; 
     then
         echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
-        mv $HOME/$target $HOME/dotfiles.old/ 2>/dev/null || echo -e "$(error) could not move $file out of the way"
+        mv $HOME/$target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
     fi
     
     # Installs the new config file by linking it to the dot-conf folder
-    ln -s $basepath/$local $HOME/$target 2>/dev/null && echo -e "$(ok) Installed $p to ~/$target" || echo -e "$(error) could not install $file"
+    ln -s $basepath/$local $HOME/$target && echo -e "$(ok) Installed $p to ~/$target" || echo -e "$(error) could not install $file"
 
 done < ./locations
