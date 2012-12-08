@@ -17,10 +17,12 @@ xmodmap "~/.Xmodmap"
 # wmsmixer -w &
 # idesk &
 xcompmgr & 
-fbsetbg -l & # Sets a background using fbsetbg
+fbsetbg -f .fluxbox/backgrounds/dotfileswall.jpg & # Sets a background using fbsetbg
 tint2 & # Starts the tint2 taskbar
 conky & # Starts conky
 redshift & # Starts redshift
+wicd-gtk &
+dropboxd &
 
 # And last but not least we start fluxbox.
 # Because it is the last app you have to run it with ''exec'' before it.
