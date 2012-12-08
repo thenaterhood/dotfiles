@@ -14,7 +14,7 @@ session.screen0.toolbar.widthPercent:	100
 session.screen0.toolbar.maxOver:	false
 session.screen0.toolbar.onhead:	0
 session.screen0.toolbar.layer:	Dock
-session.screen0.toolbar.tools:	prevworkspace, workspacename, nextworkspace, iconbar, systemtray, clock
+session.screen0.toolbar.tools:	prevworkspace, workspacename, nextworkspace, iconbar, clock
 session.screen0.iconbar.iconWidth:	128
 session.screen0.iconbar.iconTextPadding:	10
 session.screen0.iconbar.usePixmap:	true
