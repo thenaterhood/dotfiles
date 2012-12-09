@@ -6,7 +6,7 @@
 # ID 1
 rounded = 7
 border_width = 2
-background_color = #000000 60
+background_color = #000000 67
 border_color = #FFFFFF 0
 
 # ID 2
@@ -61,13 +61,13 @@ task_padding = 6 2
 task_background_id = 3
 task_active_background_id = 2
 task_urgent_background_id = 2
-task_iconified_background_id = 3
+task_iconified_background_id = 1
 
 # Task Icons
-task_icon_asb = 70 0 0
+task_icon_asb = 100 0 0
 task_active_icon_asb = 100 0 0
 task_urgent_icon_asb = 100 0 40
-task_iconified_icon_asb = 70 0 0
+task_iconified_icon_asb = 100 0 0
 
 # Fonts
 task_font = sans 7
@@ -83,14 +83,14 @@ systray_padding = 0 4 5
 systray_sort = ascending
 systray_background_id = 0
 systray_icon_size = 16
-systray_icon_asb = 70 0 0
+systray_icon_asb = 100 0 0
 
 # Clock
 time1_format = %I:%M
 time1_font = Droid Sans Bold 14
 time2_format = %P
 time2_font = Droid Sans 9
-clock_font_color = #FFFFFF 60
+clock_font_color = #FFFFFF 100
 clock_tooltip = %A, %B %e, %Y
 clock_padding = 1 0
 clock_background_id = 0
@@ -118,7 +118,7 @@ battery_low_cmd = notify-send -i /usr/share/icons/gnome/256x256/status/battery-c
 battery_hide = 0
 bat1_font = Droid Sans 10
 bat2_font = Droid Sans 8
-battery_font_color = #FFFFFF 60
+battery_font_color = #FFFFFF 100
 battery_padding = 1 0
 battery_background_id = 0
 
