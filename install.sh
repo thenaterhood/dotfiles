@@ -40,13 +40,6 @@ error(){
 }
 
 #####################################################
-# Grabs wallpapers off the Internet                 #
-#####################################################
-cd backgrounds
-curl -O http://www.thenaterhood.com/images/dotfileswall.jpg
-cd ..
-
-#####################################################
 # Iterates through the list of targets in locations #
 #####################################################
 while read p; do
