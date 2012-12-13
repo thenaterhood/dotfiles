@@ -4,3 +4,4 @@
 .config/tint2
 .config/redshift.conf
 .fluxbox
+.gtkrc-2.0
