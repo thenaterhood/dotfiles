@@ -15,6 +15,7 @@ Configuration data for
     .idlerc/ 	dark color scheme for python's IDLE
     redshift    ready-made redshift conf, uncomment your location
     .fluxbox/   select fluxbox config files (does NOT include a menu)
+    .gtkrc-2.0  a basic gtkrc theme setup.  Relies on Adwaita currently.
 
 Installation
 ------------
@@ -98,9 +99,21 @@ To manually install one or all of the files, use the commands below.
 
     ln -s ~/dotfiles/fluxbox ~/.fluxbox
     
-Note: In order to create a fluxbox menu, you will want to run 
+Note: You will need to generate a menu (not currently included) for 
+fluxbox to be easier to use.  It may do this when you first log into the 
+fluxbox WM, if not you'll need to look up the command for your distro to 
+generate the menu.  You can also create it manually if you know what 
+you're doing.
 
-    fluxbox-generate_menu
+### GTK 2.0
+
+    ln -s ~/dotfiles/gtkrc-2.0 ~/.gtkrc-2.0
+
+Note: You will most likely want this if you're using Fluxbox or another 
+window manager.  It sets up a default theme for your apps to use so they 
+don't look ugly.  It relies on the Adwaita theme right now, but you can 
+edit the file without a problem to use a different theme.  Be aware when 
+updating that this file is likely to change in the future.
 
 
 LICENSE
