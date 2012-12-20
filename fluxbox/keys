@@ -175,3 +175,4 @@ Control Mod1 R :Reconfigure
 Mod4 Up :Maximize
 Mod4 Left :BigNudgeLeft
 Mod4 L :ExecCommand slimlock
+Mod4 T  :ExecCommand Terminal
