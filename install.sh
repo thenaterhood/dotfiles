@@ -1,6 +1,21 @@
-#!/bin/bash
-# Creates symlinks to the dot-conf files in their appropriate
-# locations.
+#!/bin/bash.sh
+#
+# Author: Nate Levesque <public@thenaterhood.com>
+# Language: Shell
+# Filename: install.sh
+#
+# Description:
+#   Creates symlinks to the dotfiles in their appropriate
+#   locations.  Currently manages only dotfiles stored in a single
+#   user's directory.  The script will create symlinks for other files
+#   as well if their locations (relative to /home/user) are listed in
+#   the locations file and the file is stored as the name of the config
+#   file without the preceding "." in the dotfiles directory.
+#
+# TODO:
+#   Add an update ability
+#   Add the ability to restore from dotfiles.old files
+#
 echo "This will install the dot-conf files into their appropriate locations."
 echo "Any file that exists will be renamed and kept, so if you forgot to"
 echo "keep something, it won't break it.  If you don't want to install"
