@@ -40,23 +40,23 @@ mkdir ~/dotfiles.old 2>/dev/null
 mkdir ~/.config 2>/dev/null
 
 NORMAL="\033[0m"
-RED="\033[31;1m"
-GREEN="\033[0;32m"
+RED="\033[1;31m"
+GREEN="\033[1;32m"
 BLUE="\033[34;1m"
-YELLOW="\033[0;33m"
+YELLOW="\033[1;33m"
 
 
 #####################################################
 # Define a few functions to use later               #
 #####################################################
 ok(){
-    echo "$GREEN ok -$NORMAL";
+    echo "$GREEN=> ok -$NORMAL";
 }
 notice(){
-    echo "$YELLOW notice -$NORMAL";
+    echo "$YELLOW\n=> notice -$NORMAL";
 }
 error(){
-    echo "$RED error -$NORMAL";
+    echo "$RED\n!> error -$NORMAL";
 }
 
 #####################################################
