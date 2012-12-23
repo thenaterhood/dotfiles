@@ -6,7 +6,7 @@
 # ID 1
 rounded = 7
 border_width = 2
-background_color = #000000 67
+background_color = #000000 66
 border_color = #FFFFFF 0
 
 # ID 2
@@ -36,7 +36,7 @@ panel_padding = 7 0 7
 panel_dock = 1
 wm_menu = 1
 panel_layer = top
-panel_background_id = 1
+panel_background_id = 2
 
 # Panel Autohide
 autohide = 0
