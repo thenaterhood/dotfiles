@@ -60,6 +60,13 @@ error(){
 }
 
 #####################################################
+# Dependency checks                                 #
+#####################################################
+if [ ! `command -v sed` ]; then
+    echo -e "$(error) could not find sed, which is required for this script."
+    exit 1
+fi
+#####################################################
 # Iterates through the list of targets in locations #
 #####################################################
 while read p; do
