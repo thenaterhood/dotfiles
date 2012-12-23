@@ -1,3 +1,17 @@
+#
+# Author: Nate Levesque <public@thenaterhood.com>
+# Filename: bashrc
+# Language: Shell
+#
+# Description:
+#   Configuration for the bash shell prompt and a number of miscellaneous
+#   aliases.  Some cross-platform support anywhere bash can be run.  Setup
+#   of a few platform-specific aliases depending on system (cygwin/darwin/linux)
+#
+# TODO: 
+#   add conditions for different distros, so this is less arch-centric
+#   
+
 #####################################################
 #   Sets the bash color codes to english variables  #
 #####################################################
@@ -6,11 +20,10 @@ RED="\[\033[31;1m\]"
 GREEN="\[\033[1;32m\]"
 BLUE="\[\033[34;1m\]"
 
-
 #####################################################
 # Sets a few prelimary variables for later commands #
 #####################################################
-username=$USER
+windows_username=$USER
 ROOT_UID=0
 
 #####################################################
@@ -84,15 +97,15 @@ alias verify='pgp --verify'
 case "$OSTYPE" in 
     cygwin)
         alias win='cd /cygdrive/C'
-        alias winh='cd /cygdrive/C/Users/$username'
-        alias uac='/cygdrive/C/Users/$username/cmd_alias/uac.bat'
-        alias sudo='/cygdrive/C/Users/$username/cmd_alias/uac.bat'
+        alias winh='cd /cygdrive/C/Users/$windows_username'
+        alias uac='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
+        alias sudo='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
         alias open='cmd /c start'
         alias ifconfig='ipconfig'
         ;;
     linux*)
         alias win='cd /mnt/windows_seven'
-        alias winh='cd /mnt/windows_seven/Users/$username'
+        alias winh='cd /mnt/windows_seven/Users/$windows_username'
         alias uac='sudo'
         alias open='xdg-open'
         alias ipconfig='ifconfig'
