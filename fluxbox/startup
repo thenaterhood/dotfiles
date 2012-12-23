@@ -21,7 +21,8 @@ fbsetbg -f .fluxbox/backgrounds/dotfileswall.jpg & # Sets a background using fbs
 tint2 & # Starts the tint2 taskbar
 conky & # Starts conky
 redshift & # Starts redshift
-wicd-gtk &
+#wicd-gtk & #starts the wicd gui.  Uncomment if you use wicd
+nm-applet & # starts the NetworkManager applet in the tray.
 dropboxd &
 
 #########################################################################
