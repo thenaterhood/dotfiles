@@ -21,6 +21,11 @@ echo "Any file that exists will be renamed and kept, so if you forgot to"
 echo "keep something, it won't break it.  If you don't want to install"
 echo "all the files, do the installation manually."
 echo ""
+echo "The script will install dotfiles into your home directory.  If you"
+echo "run it as root, it will install the systemwide collection instead."
+echo "Note that this is not yet implemented, so it's only going to install"
+echo "things into your user directory right now"
+echo ""
 read -p "Hit enter to continue."
 
 
@@ -60,7 +65,7 @@ error(){
 while read p; do
     # Breaks the location line in the file to its location and basename
     file=`basename $p`
-    target=$p
+    target=`echo $p | sed -e s:'$HOME':$HOME:g`
     
     # Picks out the dot-conf file that should be linked
     if [ `echo $file | cut -c 1` = "." ]; then
@@ -70,13 +75,13 @@ while read p; do
     fi
     
     # Moves the existing config file if it exists
-    if [ -e "$HOME/$target" ] || [ -h "$HOME/$target" ]; 
+    if [ -e "$target" ] || [ -h "$target" ]; 
     then
         echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
-        mv $HOME/$target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
+        mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
     fi
     
     # Installs the new config file by linking it to the dot-conf folder
-    ln -s $basepath/$local $HOME/$target && echo -e "$(ok) Installed $p to ~/$target" || echo -e "$(error) could not install $file"
+    ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file"
 
 done < ./locations
