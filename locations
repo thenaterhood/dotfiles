@@ -1,7 +1,7 @@
-.bashrc
-.idlerc
-.conkyrc
-.config/tint2
-.config/redshift.conf
-.fluxbox
-.gtkrc-2.0
+$HOME/.bashrc
+$HOME/.idlerc
+$HOME/.conkyrc
+$HOME/.config/tint2
+$HOME/.config/redshift.conf
+$HOME/.fluxbox
+$HOME/.gtkrc-2.0
