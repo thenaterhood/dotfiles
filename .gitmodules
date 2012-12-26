@@ -1,0 +1,3 @@
+[submodule "fluxbox/styles"]
+	path = fluxbox/styles
+	url = https://github.com/thenaterhood/lookin-pretty-fluxbox.git
