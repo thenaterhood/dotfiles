@@ -162,9 +162,16 @@ Control Mod4 F12 :TakeToWorkspace 12
 ##############################################################
 # Media Keys                                                 #
 ##############################################################
-XF86AudioLowerVolume :ExecCommand amixer -c 0 set Master 2- unmute
-XF86AudioRaiseVolume :ExecCommand amixer -c 0 set Master 2+ unmute
-XF86AudioMute :ExecCommand amixer set Master toggle
+
+# These are the generic ones that work everywhere.
+#XF86AudioLowerVolume :ExecCommand amixer -c 0 set Master 2- unmute
+#XF86AudioRaiseVolume :ExecCommand amixer -c 0 set Master 2+ unmute
+#XF86AudioMute :ExecCommand amixer set Master toggle
+
+# These rely on a shellzilla script (https://github.com/thenaterhood/shellzilla)
+XF86AudioLowerVolume :ExecCommand bash ~/bin/shellzilla/volumeControl.sh down
+XF86AudioRaiseVolume :ExecCommand bash ~/bin/shellzilla/volumeControl.sh up
+XF86AudioMute :ExecCommand bash ~/bin/shellzilla/volumeControl.sh mute
 
 ##############################################################
 # Custom keys (may or may not require extra apps             #
