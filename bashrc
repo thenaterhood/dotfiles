@@ -55,7 +55,6 @@ alias lagrep='ls -alh | grep'
 alias lg='ls | grep'
 alias llg='ls -lh | grep'
 alias lag='ls -alh | grep'
-alias python='python3'
 
 #####################################################
 # Typo-related aliases                              #
