@@ -176,6 +176,8 @@ XF86AudioMute :ExecCommand bash ~/bin/shellzilla/volumeControl.sh mute
 ##############################################################
 # Custom keys (may or may not require extra apps             #
 ##############################################################
+Control Mod1 T :ExecCommand bash ~/bin/shellzilla/devswitch.sh touchpad
+
 Mod4 :ExecCommand xfce4-appfinder
 Mod4 R :ExecCommand xfce4-appfinder
 Control Mod1 R :Reconfigure
@@ -183,3 +185,4 @@ Mod4 Up :Maximize
 Mod4 Left :BigNudgeLeft
 Mod4 L :ExecCommand slimlock
 Mod4 T  :ExecCommand Terminal
+Mod4 E  :ExecCommand Thunar
