@@ -68,8 +68,8 @@ radiospace Radio Space
 TEXT
 # Name and sysname
 #
-${font Radio Space:size=25}${color b9d775}${execi 3600 whoami}${color b9d775}
-${font Radio Space:size=14}${color b9d775}$sysname $kernel
+${font Radio Space:size=25}${color 8df2a1}${execi 3600 whoami}${color b9d775}
+${font Radio Space:size=14}${color 8df2a1}$sysname $kernel
 #${color grey}$hr
 #
 # IP addresses
@@ -104,7 +104,7 @@ ${color grey}Windows $alignr $color${fs_used /mnt/windows_seven/}/${fs_size /mnt
 #${fs_bar 6 /mnt/windows_seven/}
 #$hr
 
-${font radiospace:size=14}${color b9d775}${time %A %d %Y}
-${font Radio Space:size=25}${color b9d775}${time %H:%M}
+${font radiospace:size=14}${color 8df2a1}${time %A %d %Y}
+${font Radio Space:size=25}${color 8df2a1}${time %H:%M}
 
 
