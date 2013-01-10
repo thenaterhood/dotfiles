@@ -55,6 +55,7 @@ alias lagrep='ls -alh | grep'
 alias lg='ls | grep'
 alias llg='ls -lh | grep'
 alias lag='ls -alh | grep'
+alias dfh='df -h'
 
 #####################################################
 # Typo-related aliases                              #
