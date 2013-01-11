@@ -75,9 +75,9 @@ ${font Radio Space:size=14}${color 8df2a1}$sysname $kernel
 # IP addresses
 #
 ${font Ubuntu:size=11.5}
-${color grey}Wireless IP (${wireless_essid wlan0}):  $alignr $color ${addr wlan0}
-${color grey}Wired IP: $alignr $color ${addr eth0}
-${color grey}Public IP: $alignr $color ${execi 60 curl http://icanhazip.com}
+${color grey}WLAN (${wireless_essid wlan0}):  $alignr $color ${addr wlan0}
+${color grey}LAN: $alignr $color ${addr eth0}
+${color grey}WAN: $alignr $color ${execi 60 curl http://icanhazip.com}
 ${color grey}$hr
 #
 # Basic system info
