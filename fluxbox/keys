@@ -100,8 +100,6 @@ Mod1 F2 :Exec fbrun
 ##############################################################
 # Fluxbox key commands                                       #
 ##############################################################
-# exit fluxbox
-Control Mod1 Delete :Exit
 
 # change to previous/next workspace
 Control Mod1 Left :PrevWorkspace
@@ -172,6 +170,7 @@ Control Mod4 F12 :TakeToWorkspace 12
 XF86AudioLowerVolume :ExecCommand bash ~/bin/shellzilla/volumeControl.sh down
 XF86AudioRaiseVolume :ExecCommand bash ~/bin/shellzilla/volumeControl.sh up
 XF86AudioMute :ExecCommand bash ~/bin/shellzilla/volumeControl.sh mute
+XF86Display :ExecCommand Terminal -x bash ~/bin/shellzilla/display_configurator.sh
 
 ##############################################################
 # Custom keys (may or may not require extra apps             #
@@ -186,3 +185,6 @@ Mod4 Left :BigNudgeLeft
 Mod4 L :ExecCommand slimlock
 Mod4 T  :ExecCommand Terminal
 Mod4 E  :ExecCommand Thunar
+
+# exit fluxbox
+Control Mod1 Delete :ExecCommand Terminal -x htop
