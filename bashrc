@@ -15,12 +15,11 @@
 #####################################################
 #   Sets the bash color codes to english variables  #
 #####################################################
-NORMAL="\033[0m"
-RED="\033[1;31m"
-GREEN="\033[1;32m"
-BLUE="\033[34;1m"
-YELLOW="\033[1;33m"
-PURPLE="\033[0;35m"
+NORMAL="\[\033[0m\]"
+RED="\[\033[31;1m\]"
+GREEN="\[\033[1;32m\]"
+BLUE="\[\033[34;1m\]"
+altred="\033[1;31m"
 
 #####################################################
 # Sets a few prelimary variables for later commands #
@@ -29,14 +28,10 @@ windows_username=$USER
 ROOT_UID=0
 
 #####################################################
-# Includes external shell scripts                   #
+# Displays a greeting on shell start                #
 #####################################################
+hour=`date +%H`
 
-
-#####################################################
-# Displays a greeting when the terminal starts      #
-#####################################################
-hour=$(date +%H)
 if [ $hour -ge 0 -a $hour -lt 12 ]; then
     greeting="Good morning"
 elif [ $hour -ge 12 -a $hour -lt 19 ]; then
@@ -45,13 +40,13 @@ else
     greeting="Good evening"
 fi
 
-echo -e "$RED$greeting, you are on"
+echo -e "$altred$greeting, you are on"
 if [ `command -v figlet` ]; then
     figlet $HOSTNAME
 else
     echo $HOSTNAME
 fi
-echo -e "Current time is `date +%T`, today is `date +%A`.\n$NORMAL"
+echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
 
 #####################################################
