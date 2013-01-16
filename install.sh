@@ -64,11 +64,22 @@ error(){
 #####################################################
 # Dependency checks                                 #
 #####################################################
-if [ ! `command -v sed` ]; then
-    echo -e "$(error) could not find sed, which is required for this script."
-    exit 1
-fi
+checkRecommended(){
+    if [ ! `command -v $1` ]; then
+        echo -e "$(notice) It is recommended that you install $1."
+    fi
+}
 
+checkRequired(){
+    if [ ! `command -v $1` ]; then
+        echo -e "$(error) could not fine $1, which is required for this script."
+        exit 1
+    fi
+}
+
+checkRequired sed
+checkRecommended conky
+checkRecommended tint2
 #####################################################
 # Checks if root                                    #
 #####################################################
