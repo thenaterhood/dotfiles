@@ -1,4 +1,4 @@
-#!/bin/bash.sh
+#!/bin/bash
 #
 # Author: Nate Levesque <public@thenaterhood.com>
 # Language: Shell
