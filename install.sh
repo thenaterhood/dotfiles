@@ -36,6 +36,8 @@ read -p "Hit enter to continue."
 user=$USER
 basepath=`pwd`
 home=$HOME
+root=/
+rootUID=0
 mkdir ~/dotfiles.old 2>/dev/null
 mkdir ~/.config 2>/dev/null
 
@@ -66,13 +68,21 @@ if [ ! `command -v sed` ]; then
     echo -e "$(error) could not find sed, which is required for this script."
     exit 1
 fi
+
+#####################################################
+# Checks if root                                    #
+#####################################################
+if [ $rootUID != $UID ]; then
+    echo -e "$(notice) You are not logged in as root.  You can safely ignore errors about things not being saved to /"
+fi
+
 #####################################################
 # Iterates through the list of targets in locations #
 #####################################################
 while read p; do
     # Breaks the location line in the file to its location and basename
     file=`basename $p`
-    target=`echo $p | sed -e s:'$HOME':$HOME:g`
+    target=`echo $p | sed -e s:'$HOME':$HOME:g | sed -e s:'$ROOT':$root:g`
     
     # Picks out the dot-conf file that should be linked
     if [ `echo $file | cut -c 1` = "." ]; then
