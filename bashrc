@@ -26,21 +26,25 @@ altred="\033[1;31m"
 #####################################################
 windows_username=$USER
 ROOT_UID=0
+windows_mntpt=/mnt/windows_seven
 
 #####################################################
 # Displays a greeting on shell start                #
 #####################################################
 hour=`date +%H`
 
+# Decides which greeting to use, depending on time of day
 if [ $hour -ge 0 -a $hour -lt 12 ]; then
-    greeting="Good morning"
+    greeting="Good morning, $USER"
 elif [ $hour -ge 12 -a $hour -lt 19 ]; then
-    greeting="Good afternoon"
+    greeting="Good afternoon, $USER"
 else
-    greeting="Good evening"
+    greeting="Good evening, $USER"
 fi
 
-echo -e "$altred$greeting, you are on"
+# Displays the greeting
+echo -e "$altred$greeting. You are on"
+# Displays the hostname, in ascii art if figlet is available
 if [ `command -v figlet` ]; then
     figlet $HOSTNAME
 else
@@ -127,8 +131,8 @@ case "$OSTYPE" in
         alias ifconfig='ipconfig'
         ;;
     linux*)
-        alias win='cd /mnt/windows_seven'
-        alias winh='cd /mnt/windows_seven/Users/$windows_username'
+        alias win='cd $windows_mntpt'
+        alias winh='cd $windows_mntpt/Users/$windows_username'
         alias uac='sudo'
         alias open='xdg-open'
         alias ipconfig='ifconfig'

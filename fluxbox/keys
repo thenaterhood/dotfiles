@@ -184,7 +184,7 @@ Mod4 Up :Maximize
 Mod4 Left :BigNudgeLeft
 Mod4 L :ExecCommand slimlock
 Mod4 T  :ExecCommand exo-open --launch TerminalEmulator
-Mod4 E  :ExecCommand xdg-open /
+Mod4 E  :ExecCommand xdg-open ~/
 
 # exit fluxbox
 Control Mod1 Delete :ExecCommand exo-open --launch TerminalEmulator htop
