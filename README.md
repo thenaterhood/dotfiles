@@ -4,18 +4,30 @@ dotfiles
 Version controlled dot configuration files for various Linux software.
 In some cases, the Windows variants of the software use the same files.
 
-Contents
+README Contents
+------------
+
+    List of repository contents
+    Installation instructions
+    HOWTO Manually install dotfiles
+    HOWTO work with the install script
+    LICENSE
+    
+
+Repo Contents
 ------------
 
 Configuration data for 
 
     tint2/		configuration for tint2 taskbar
-    .conkyrc	conky configuration
-    .bashrc 	bash aliases and prompt customization
-    .idlerc/ 	dark color scheme for python's IDLE
+    conkyrc	    conky configuration
+    bashrc 	    bash aliases and prompt customization
+    idlerc/ 	dark color scheme for python's IDLE
     redshift    ready-made redshift conf, uncomment your location
-    .fluxbox/   select fluxbox config files (does NOT include a menu)
-    .gtkrc-2.0  a basic gtkrc theme setup.  Relies on Adwaita currently.
+    fluxbox/    select fluxbox config files (does NOT include a menu)
+    gtkrc-2.0   a basic gtkrc theme setup.  Relies on Adwaita currently.
+    synaptics   multitouch configuration for synaptics with natural scrolling
+    
 
 Installation
 ------------
@@ -63,11 +75,6 @@ more than once will replace the backup copies of the files, so DO NOT do it
 unless you really need to.  You can remove the dotfiles.old directory it moves things to
 if you don't need them.
 
-Additionally, there are some extra commands you will probably want to run
-after the install script.  In order to generate a fluxbox menu, run
-
-    fluxbox-generate_menu
-
 The script can be run from any location in your home directory so feel free
 to put it in ~/bin, ~/documents, or wherever you'd like to keep it.  If you
 move it, run the install script again and it will replace symlinks to point to its
@@ -114,6 +121,56 @@ window manager.  It sets up a default theme for your apps to use so they
 don't look ugly.  It relies on the Adwaita theme right now, but you can 
 edit the file without a problem to use a different theme.  Be aware when 
 updating that this file is likely to change in the future.
+
+Using the Install Script
+------------
+The install script is fairly flexible in how it works, so it can be expanded 
+to serve other purposes or to install additional files.  Currently, the script 
+is capable of installing files for a user in their home directory or installing 
+a collection of dotfiles for the system (including users) if run with root 
+privileges.  The script is entirely flexible and the dotfiles directory can 
+be located anywhere on the system.
+
+The install script reads from the locations file, which is a list of files 
+and the location to install them to.  Each line of the file has the "local" 
+name or path of the file as it is stored in relation to the dotfiles directory.  
+Separated by a tab, the second section of the line contains the path to where 
+the file should be installed.  This section is prefixed by either $HOME or 
+$ROOT so that the script can identify if the file can be installed without 
+root privileges.  These are automatically adjusted on the fly to point to the correct 
+location when the script is run.
+
+With these guidelines, the locations file can be modified to exclude files 
+that are in the repository by default, include files that are not in the 
+repository by default, or to change the locations the files are installed to 
+or linked to.  Note that when the install script is run, links will be created 
+whether or not the file actually exists, so make sure the path is correct as the 
+script will not verify it.
+
+If the install script is invoked with root privileges, the script will move the 
+containing directory into the /opt folder if it isn't already there for safety 
+because the folder now may contain shared and system files.  Worth noting 
+is that on a multi-user system, the script can be invoked without root rights 
+to install the personal collection of dotfile links into each individual user 
+directory if the user chooses.  Root can also do this, as when the script 
+is invoked by root it will present the option of installing the personal 
+collection to a home directory other than that of root.  For this reason, 
+the script could be used when initially creating a user to create a default
+config for the user, if for some reason using the system defaults isn't 
+desirable.
+
+WARNINGS:
+The install script does not restore or undo linking the files, so if 
+you intend to use it, be aware that you will need to manually remove links 
+or restore the original files.
+
+Although the script will move existing files out of the way into a dotfiles.old 
+folder in the home directory of the user invoking it, it will not check to 
+see if files already exist in dotfiles.old prior to moving them there.  Run 
+the script ONCE and if something goes wrong, the dotfiles directory gets moved, 
+or any other reason, rename or otherwise backup the dotfiles.old directory 
+because its contents will get overwritten by whatever happens to be in the 
+location of the files being installed.
 
 
 LICENSE
