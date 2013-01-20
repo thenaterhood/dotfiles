@@ -1,0 +1,22 @@
+
+function notify {
+  if [ ! "$NO_NOTIFY" = "1" ]; then
+    ICON=$2
+    MESSAGE=$1
+    if [ "$DISTRIB_RELEASE" = "9.10" ]; then
+      DISPLAY=:0.0 notify-send -h int:transient:1 -i $ICON "$MESSAGE" 2>/dev/null
+    else
+      USER=$(who | sed -n '/ (:0[\.0]*)$\| :0 /{s/ .*//p;q}')
+      USERCNT=$(who | wc -l)
+      if [ ! "$(whoami)" = "$USER" ]; then
+        if [ ! "$USERCNT" -lt 1 ]; then
+          su $USER -l -c "DISPLAY=:0.0 notify-send -h int:transient:1 -i $ICON \"$MESSAGE\" 2>/dev/null"
+        fi
+      else
+        if [ ! "$USERCNT" -lt 1 ]; then
+          notify-send -h int:transient:1 -i $ICON "$MESSAGE" 2>/dev/null
+        fi
+      fi
+    fi
+  fi
+}
