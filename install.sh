@@ -102,7 +102,6 @@ echo -e "$(notice) This will install ALL the dotfiles into their appropriate loc
 # Checks if root                                    #
 #####################################################
 if [ $rootUID != $UID ]; then
-    echo -e "$(notice) You are not logged in as root.  \nYou can safely ignore errors about permissions on /"
     read -p "Waiting for you to hit enter, as there were important messages"
     isRoot=False
 else
