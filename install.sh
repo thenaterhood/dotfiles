@@ -16,18 +16,6 @@
 #   Add an update ability
 #   Add the ability to restore from dotfiles.old files
 #
-echo "This will install the dot-conf files into their appropriate locations."
-echo "Any file that exists will be renamed and kept, so if you forgot to"
-echo "keep something, it won't break it.  If you don't want to install"
-echo "all the files, do the installation manually."
-echo ""
-echo "The script will install dotfiles into your home directory.  If you"
-echo "run it as root, it will install the systemwide collection instead."
-echo "Note that this is not yet implemented, so it's only going to install"
-echo "things into your user directory right now"
-echo ""
-read -p "Hit enter to continue."
-
 
 #####################################################
 # Sets a few initial variables and makes folders    #
@@ -36,7 +24,7 @@ read -p "Hit enter to continue."
 user=$USER
 basepath=`pwd`
 home=$HOME
-root=/
+root=''
 rootUID=0
 mkdir ~/dotfiles.old 2>/dev/null
 mkdir ~/.config 2>/dev/null
@@ -61,6 +49,26 @@ error(){
     echo "$RED\n!> error -$NORMAL";
 }
 
+rootTasks(){
+    # Performs a few additional tasks if the script has been run
+    # as root.  Moves the dotfiles folder to /opt/dotfiles so that
+    # the (soon to be) system files don't get accidentally overwritten
+    # and asks what user directory to link the personal dotfiles to.
+    # Leaves permissions intact so the user still has rw access
+    # to the files.
+    if [ ! `pwd` = "/opt/dotfiles" ]; then
+        echo -e "$(notice) For security and safety reasons, the dotfiles folder has been moved to /opt/dotfiles since it contains system files."
+
+        mv `pwd` /opt/dotfiles
+        basepath=/opt/dotfiles
+    fi
+    echo -e "$(notice) Please enter the full path to the home directory of the user to install personal dotfiles into\n"
+    echo "Note that this script can be run more than once to install dotfiles to other users as well."
+    read -p "User directory: " home
+    
+    if [ "$home" = "" ]; then home=$HOME; fi
+}
+
 #####################################################
 # Dependency checks                                 #
 #####################################################
@@ -80,11 +88,19 @@ checkRequired(){
 checkRequired sed
 checkRecommended conky
 checkRecommended tint2
+
+echo -e "$(notice) This will install ALL the dotfiles into their appropriate locations."
+
 #####################################################
 # Checks if root                                    #
 #####################################################
 if [ $rootUID != $UID ]; then
-    echo -e "$(notice) You are not logged in as root.  You can safely ignore errors about things not being saved to /"
+    echo -e "$(notice) You are not logged in as root.  \nYou can safely ignore errors about permissions on /"
+    read -p "Waiting for you to hit enter, as there were important messages"
+    isRoot=False
+else
+    rootTasks
+    isRoot=True
 fi
 
 #####################################################
@@ -93,23 +109,30 @@ fi
 while read p; do
     # Breaks the location line in the file to its location and basename
     file=`basename $p`
-    target=`echo $p | sed -e s:'$HOME':$HOME:g | sed -e s:'$ROOT':$root:g`
+    target=`echo $p | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
     
-    # Picks out the dot-conf file that should be linked
-    if [ `echo $file | cut -c 1` = "." ]; then
-        local=`echo $file | cut -c 2-40`
+    # Moves the existing file and links the dotfiles file in its place
+    # depending on user permissions
+    if [ $isRoot = True ] || [ `echo $p | cut -c 2-5` = 'HOME' ]; then
+    
+        # Picks out the dotfile that should be linked
+        if [ `echo $file | cut -c 1` = "." ]; then
+            local=`echo $file | cut -c 2-40`
+        else
+            local=$file
+        fi
+        
+        # Moves the existing config file if it exists
+        if [ -e "$target" ] || [ -h "$target" ]; then
+            echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
+            mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
+        fi
+        
+        # Installs the new config file by linking it to the dotfiles folder
+        ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file to $target"
+        
     else
-        local=$file
+        echo -e "$(notice) skipping $file, installing it requires root access."
     fi
-    
-    # Moves the existing config file if it exists
-    if [ -e "$target" ] || [ -h "$target" ]; 
-    then
-        echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
-        mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
-    fi
-    
-    # Installs the new config file by linking it to the dot-conf folder
-    ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file"
 
-done < ./locations
+done < $basepath/locations
