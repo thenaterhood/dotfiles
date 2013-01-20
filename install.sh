@@ -6,11 +6,11 @@
 #
 # Description:
 #   Creates symlinks to the dotfiles in their appropriate
-#   locations.  Currently manages only dotfiles stored in a single
-#   user's directory.  The script will create symlinks for other files
-#   as well if their locations (relative to /home/user) are listed in
-#   the locations file and the file is stored as the name of the config
-#   file without the preceding "." in the dotfiles directory.
+#   locations relative to a home directory or the partition root.
+#   The script will create symlinks for other files
+#   as well if their locations are listed in the locations file.  
+#   The idea was to give the script as much flexibility as possible
+#   so that it can have uses beyond installing dotfiles.
 #
 # TODO:
 #   Add an update ability
@@ -26,8 +26,8 @@ basepath=`pwd`
 home=$HOME
 root=''
 rootUID=0
-mkdir ~/dotfiles.old 2>/dev/null
-mkdir ~/.config 2>/dev/null
+mkdir ~/dotfiles.old 2>/dev/null || echo -e "$(error) could not create backup directory"
+mkdir ~/.config 2>/dev/null || echo -e "$(error) could not create .config directory"
 
 NORMAL="\033[0m"
 RED="\033[1;31m"
@@ -92,6 +92,7 @@ checkRequired(){
 }
 
 checkRequired sed
+checkRequired awk
 checkRecommended conky
 checkRecommended tint2
 
@@ -114,20 +115,14 @@ fi
 #####################################################
 while read p; do
     # Breaks the location line in the file to its location and basename
-    file=`basename $p`
-    target=`echo $p | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
+    local=`echo $p | awk -F'[ \t]+|\\' '{print $1}'`
+    file=$local
+    target=`echo $p | awk -F'[ \t]+|\\' '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
     
     # Moves the existing file and links the dotfiles file in its place
     # depending on user permissions
-    if [ $isRoot = True ] || [ `echo $p | cut -c 2-5` = 'HOME' ]; then
+    if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ]; then
     
-        # Picks out the dotfile that should be linked
-        if [ `echo $file | cut -c 1` = "." ]; then
-            local=`echo $file | cut -c 2-40`
-        else
-            local=$file
-        fi
-        
         # Moves the existing config file if it exists
         if [ -e "$target" ] || [ -h "$target" ]; then
             echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
