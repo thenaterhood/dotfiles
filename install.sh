@@ -62,6 +62,12 @@ rootTasks(){
         mv `pwd` /opt/dotfiles
         basepath=/opt/dotfiles
     fi
+    
+    read -p "Install system files (not just personal)? y/n: " doRoot
+    if [ $doRoot = "n" ]; then
+        isRoot=False
+    fi
+    
     echo -e "$(notice) Please enter the full path to the home directory of the user to install personal dotfiles into\n"
     echo "Note that this script can be run more than once to install dotfiles to other users as well."
     read -p "User directory: " home
@@ -99,8 +105,8 @@ if [ $rootUID != $UID ]; then
     read -p "Waiting for you to hit enter, as there were important messages"
     isRoot=False
 else
-    rootTasks
     isRoot=True
+    rootTasks
 fi
 
 #####################################################
@@ -132,7 +138,7 @@ while read p; do
         ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file to $target"
         
     else
-        echo -e "$(notice) skipping $file, installing it requires root access."
+        echo -e "$(notice) skipping $file."
     fi
 
 done < $basepath/locations
