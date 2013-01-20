@@ -1,7 +1,8 @@
-$HOME/.bashrc
-$HOME/.idlerc
-$HOME/.conkyrc
-$HOME/.config/tint2
-$HOME/.config/redshift.conf
-$HOME/.fluxbox
-$HOME/.gtkrc-2.0
+bashrc	$HOME/.bashrc
+idlerc	$HOME/.idlerc
+conkyrc	$HOME/.conkyrc
+tint2	$HOME/.config/tint2
+redshift	$HOME/.config/redshift.conf
+fluxbox	$HOME/.fluxbox
+gtkrc-2.0	$HOME/.gtkrc-2.0
+synaptics	$ROOT/etc/X11/xorg.conf.d/10-synaptics.conf
