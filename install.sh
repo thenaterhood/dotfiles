@@ -114,9 +114,9 @@ fi
 #####################################################
 while read p; do
     # Breaks the location line in the file to its location and basename
-    local=`echo $p | awk -F'[ \t]+|\\' '{print $1}'`
+    local=`echo $p | awk '{print $1}'`
     file=$local
-    target=`echo $p | awk -F'[ \t]+|\\' '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
+    target=`echo $p | awk '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
     
     # Moves the existing file and links the dotfiles file in its place
     # depending on user permissions
