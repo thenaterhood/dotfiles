@@ -43,7 +43,7 @@ ok(){
     echo "$GREEN=> ok -$NORMAL";
 }
 notice(){
-    echo "$YELLOW\n=> notice -$NORMAL";
+    echo "$YELLOW=> notice -$NORMAL";
 }
 error(){
     echo "$RED\n!> error -$NORMAL";
@@ -120,7 +120,7 @@ while read p; do
     
     # Moves the existing file and links the dotfiles file in its place
     # depending on user permissions
-    if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ]; then
+    if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ] || [ `echo $target | cut -c 2-6` = 'Users' ]; then
     
         # Moves the existing config file if it exists
         if [ -e "$target" ] || [ -h "$target" ]; then
