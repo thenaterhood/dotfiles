@@ -58,7 +58,7 @@ echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 # See bash man page for codes.                      #
 #####################################################
 if [ "$UID" -eq "$ROOT_UID" ]; then
-    PS1="$RED(\t) \u@\h $RED\\w\\$ $NORMAL"
+    PS1="$RED\h $RED\\w\\$ $NORMAL"
 else
     PS1="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
 fi
