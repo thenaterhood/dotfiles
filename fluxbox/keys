@@ -170,7 +170,7 @@ Control Mod4 F12 :TakeToWorkspace 12
 XF86AudioLowerVolume :ExecCommand bash ~/bin/shellzilla/volumeControl.sh down
 XF86AudioRaiseVolume :ExecCommand bash ~/bin/shellzilla/volumeControl.sh up
 XF86AudioMute :ExecCommand bash ~/bin/shellzilla/volumeControl.sh mute
-XF86Display :ExecCommand exo-open --launch TerminalEmulator bash ~/bin/shellzilla/display_configurator.sh
+XF86Display :ExecCommand exo-open --launch TerminalEmulator bash ~/bin/shellzilla/display_configurator.sh dialog
 
 ##############################################################
 # Custom keys (may or may not require extra apps             #
