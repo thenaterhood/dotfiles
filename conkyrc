@@ -25,35 +25,35 @@
 # Transparency 
 own_window yes
 own_window_transparent yes
-own_window_argb_visual yes
-own_window_type normal
-own_window_class conky-semi
+#own_window_argb_visual yes
+own_window_type desktop
+#own_window_class conky-semi
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 # End section
 alignment top_right
-background no
+background yes
 border_width 1
 cpu_avg_samples 2
-default_color white
-default_outline_color black
-default_shade_color black
+default_color 656667
+default_outline_color 000000
+default_shade_color 828282
 draw_borders no
 draw_graph_borders yes
 draw_outline yes
 draw_shades no
 use_xft yes
-xftfont Droid Sans:size=12
+xftalpha 1
+xftfont Liberation Sans:size=9
 gap_x 5
 gap_y 35
-minimum_size 20 50
+minimum_size 200 500
 net_avg_samples 2
 no_buffers yes
 out_to_console no
 out_to_stderr no
 extra_newline no
 own_window yes
-own_window_class Conky
-own_window_type desktop
+#own_window_class Conky
 stippled_borders 0
 update_interval 1.0
 uppercase no
@@ -61,50 +61,99 @@ use_spacer none
 show_graph_scale no
 show_graph_range no
 double_buffer yes
-green1 b9d775
-color2 F8DF58
-radiospace Radio Space
 
 TEXT
 # Name and sysname
 #
-${font Radio Space:size=25}${color 8df2a1}$alignr${execi 3600 whoami}${color b9d775}
-${font Radio Space:size=14}${color 8df2a1}$alignr$sysname $kernel
+#${font Radio Space:size=20}${color 8df2a1}${execi 3600 whoami}${color b9d775}
+#${font Radio Space:size=12}${color 8df2a1}$sysname $kernel
 #${color grey}$hr
 #
 # General networking/IP addresses
 #
-${font Ubuntu:size=10}
-${color grey}WLAN (${wireless_essid wlan0}):  $alignr $color ${addr wlan0}
-${color grey}LAN: $alignr $color ${addr eth0}
-${color grey}WAN: $alignr $color ${execi 60 curl http://icanhazip.com}
+${font Liberation Sans:size=9}
+${color cyan}${font Radio Space:size=9}N E T W O R K I N G $font
 ${color grey}$hr
+WLAN (${wireless_essid wlan0}):  $alignr ${addr wlan0}
+# Shows the wireless signal strength if wireless is connected
+${if_match "${addr wlan0}" == "No Address"}\
+${else}\
+    +Signal: $alignr ${wireless_link_qual_perc wlan0}%
+    +Up: $alignr ${upspeed wlan0}
+    +Down: $alignr ${downspeed wlan0}
+
+${endif}\
+LAN: $alignr ${addr eth0}
+${if_match "${addr eth0}" == "No Address"}\
+${else}\
+#    +Signal: $alignr ${wireless_link_qual_perc wlan0}%
+    +Up: $alignr ${upspeed eth0}
+    +Down: $alignr ${downspeed eth0}
+
+${endif}\
+WAN: $alignr ${execi 60 curl http://icanhazip.com}
 #
 # Basic system info
 #
-${color grey}Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):${else}:${endif} $alignr ${if_match ${battery_percent BAT0} <= 20}${color ff0000}${battery_percent}%${else}${if_existing /sys/class/power_supply/ADP1/online 1}$color${battery_percent}%${else}${color1}${battery_percent}%${endif}${endif}
+
+${color cyan}${font Radio Space:size=9}S Y S T E M  I N F O$font
+${color grey}$hr
+Host: $alignr $nodename
+# Adds "(plugged in)" after the battery if the system is plugged in
+Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):\
+${else}:\
+${endif}\
+# Changes the color of the battery percent to red if the battery is low
+$alignr ${if_match ${battery_percent BAT0} <= 20}\
+${color ff0000}\
+${else}\
+${if_existing /sys/class/power_supply/ADP1/online 1}\
+${else}${color grey}\
+${endif}\
+${endif}\
+${battery_percent}%
 #${color grey}Frequency (in MHz):$color $freq
 #${color grey}Frequency (in GHz):$color $freq_g
-${color grey}RAM Usage:$color $alignr $memperc%
+RAM Usage:$alignr $memperc%
 #${color grey}Swap Usage:$color $alignr $swapperc%
-${color grey}CPU Usage:$color $alignr $cpu%
-${color grey}Up: $alignr $color $uptime
-${color grey}Processes:$color $alignr $processes
+CPU Usage:$alignr $cpu%
+Up: $alignr $uptime
+Kernel: $alignr $kernel
+Processes:$alignr $processes
 #  ${color grey}Running:$color $running_processes
-${color grey}$hr
+
+
 #
 # File system info
 #
-${color grey}Primary file systems:
-${color grey}/ $alignr $color${fs_used /}/${fs_size /} (${fs_used_perc /}%)
-${color grey}${fs_bar 3 /}
-${color grey}/home $alignr $color${fs_used /home}/${fs_size /home} (${fs_used_perc /home}%)
-${color grey}${fs_bar 3 /home}
-${color grey}Windows $alignr $color${fs_used /mnt/windows_seven/}/${fs_size /mnt/windows_seven/} (${fs_used_perc /mnt/windows_seven/}%)
-${color grey}${fs_bar 3 /mnt/windows_seven/}
+${color cyan}${font Radio Space:size=9}F I L E S Y S T E M S $font
+${color grey}$hr
+# fs bar, orange when drive is over 70% full
+/ $alignr ${fs_used /}/${fs_size /} (${fs_used_perc /}%)
+${if_match ${fs_used_perc /} >= 70}\
+${color orange}\
+${else}\
+${color grey}\
+${endif}\
+${fs_bar 3 /}
+# Provides a percentage and fs bar (orange when drive is over 70% full)
+/home $alignr ${fs_used /home}/${fs_size /home} (${fs_used_perc /home}%)
+${if_match ${fs_used_perc /home} >= 70}\
+${color orange}\
+${else}\
+${color grey}\
+${endif}\
+${fs_bar 3 /home}
+# Provides a percentage and filesystem bar (turns orange when drive is more than 70% full)
+Windows $alignr ${fs_used /mnt/windows_seven/}/${fs_size /mnt/windows_seven/} (${fs_used_perc /mnt/windows_seven/}%)
+${if_match ${fs_used_perc /mnt/windows_seven} >= 70}\
+${color orange}\
+${else}\
+${color grey}\
+${endif}${fs_bar 3 /mnt/windows_seven/}
 #$hr
 
-${font radiospace:size=14}${color 8df2a1}$alignr${time %A %d %Y}
-${font Radio Space:size=25}${color 8df2a1}$alignr${time %H:%M}
+#${font radiospace:size=12}${color 8df2a1}${time %A %d %Y}
+#${font Radio Space:size=20}${color 8df2a1}${time %H:%M}
 
 
