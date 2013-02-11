@@ -43,7 +43,7 @@ draw_outline yes
 draw_shades no
 use_xft yes
 xftalpha 1
-xftfont Liberation Sans:size=9
+xftfont Lucida Sans:size=9
 gap_x 5
 gap_y 35
 minimum_size 200 500
@@ -78,7 +78,11 @@ WLAN (${wireless_essid wlan0}):  $alignr ${addr wlan0}
 # Shows the wireless signal strength if wireless is connected
 ${if_match "${addr wlan0}" == "No Address"}\
 ${else}\
+${if_match ${wireless_link_qual_perc wlan0} <= 55}\
+${color orange}\
+${endif}\
     +Signal: $alignr ${wireless_link_qual_perc wlan0}%
+${color grey}\
     +Up: $alignr ${upspeed wlan0}
     +Down: $alignr ${downspeed wlan0}
 
@@ -111,7 +115,8 @@ ${if_existing /sys/class/power_supply/ADP1/online 1}\
 ${else}${color grey}\
 ${endif}\
 ${endif}\
-${battery_percent}%
+${battery_percent}%\
+${color grey}
 #${color grey}Frequency (in MHz):$color $freq
 #${color grey}Frequency (in GHz):$color $freq_g
 RAM Usage:$alignr $memperc%
