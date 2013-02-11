@@ -27,6 +27,8 @@ Configuration data for
     fluxbox/    select fluxbox config files (does NOT include a menu)
     gtkrc-2.0   a basic gtkrc theme setup.  Relies on Adwaita currently.
     synaptics   multitouch configuration for synaptics with natural scrolling
+    jupiter     a fixed notification script for jupiter, so notifications go away
+    vconsole    font, keymap, and fontmap settings for the virtual console
     
 
 Installation
