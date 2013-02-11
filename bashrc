@@ -13,6 +13,11 @@
 #   
 
 #####################################################
+# Configure the terminal
+#####################################################
+
+
+#####################################################
 #   Sets the bash color codes to english variables  #
 #####################################################
 NORMAL="\[\033[0m\]"
@@ -25,8 +30,10 @@ altred="\033[1;31m"
 # Sets a few prelimary variables for later commands #
 #####################################################
 windows_username=$USER
+shellzilla=~/bin/shellzilla
 ROOT_UID=0
 windows_mntpt=/mnt/windows_seven
+distro=`cat /etc/issue | head -1 | awk '{print $1}'`
 
 #####################################################
 # Displays a greeting on shell start                #
@@ -67,7 +74,6 @@ fi
 # General aliases to shorten commands/make other OS #
 # commands available (coming fron windows)          #
 #####################################################
-alias ls='ls --color=auto'
 alias sl='ls -lr'
 alias ll='ls -lh'
 alias la='ls -a'
@@ -100,20 +106,20 @@ alias :q='exit'
 #####################################################
 # Aliases to call scripts (found in shellzilla repo)#
 #####################################################
-alias displays='bash ~/bin/shellzilla/display_configurator.sh'
-alias touchpad='bash ~/bin/shellzilla/touchpad_switch.sh'
-alias rip='bash ~/bin/shellzilla/audio_ripper.sh'
-alias backup='~/bin/shellzilla/system_backup.sh'
-alias suspend='bash ~/bin/shellzilla/suspend.sh'
+alias displays='bash $shellzilla/display_configurator.sh'
+alias touchpad='bash $shellzilla/touchpad_switch.sh'
+alias rip='bash $shellzilla/audio_ripper.sh'
+alias backup='$shellzilla/system_backup.sh'
+alias suspend='bash $shellzilla/suspend.sh'
+alias volup='bash $shellzilla/volumeControl.sh up'
+alias voldwn='bash $shellzilla/volumeControl.sh down'
+alias volmute='bash $shellzilla/volumeControl.sh mute'
 
 #####################################################
 # Distro/software specific commands                 #
 #####################################################
 alias l='slimlock'
-alias Syu='sudo pacman -Syu'
-alias pacS='sudo pacman -S'
-alias pacR='sudo pacman -Rs'
-alias Syua='sudo yaourt -Syua'
+
 alias virtualbox='gksudo VirtualBox &'
 alias sign='pgp --detach-sign' 
 alias verify='pgp --verify'
@@ -123,14 +129,22 @@ alias verify='pgp --verify'
 #####################################################
 case "$OSTYPE" in 
     cygwin)
+        # Generic useful aliases
+        alias ls='ls --color=auto'
         alias win='cd /cygdrive/C'
         alias winh='cd /cygdrive/C/Users/$windows_username'
         alias uac='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
         alias sudo='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
         alias open='cmd /c start'
         alias ifconfig='ipconfig'
+        
+        # Service management
+        alias stop='net stop'
+        alias start='net start'
+        alias restart='net restart'
         ;;
     linux*)
+        alias ls='ls --color=auto'
         alias win='cd $windows_mntpt'
         alias winh='cd $windows_mntpt/Users/$windows_username'
         alias uac='sudo'
@@ -142,4 +156,30 @@ case "$OSTYPE" in
         alias ipconfig='ifconfig'
         #mac already has an open command
         
+esac
+
+######################################################
+# Cross-distribution alias setup (Debian/Arch)       #
+######################################################
+case "$distro" in
+    Arch)
+        # Package management aliases
+        alias Syu='sudo pacman -Syu'
+        alias pacS='sudo pacman -S'
+        alias pacR='sudo pacman -Rs'
+        alias pacsearch='sudo pacman -Ss'
+        alias Syua='sudo yaourt -Syua'
+        
+        # Service management
+        alias sysctl='sudo systemctl'
+        ;;
+    Debian)
+        # Package management aliases        
+        # Pacman stuff, since I'm used to pacman
+        alias Syu='sudo apt-get update && sudo apt-get upgrade'
+        alias pacS='sudo apt-get install'
+        alias pacR='sudo apt-get purge'
+        alias pacsearch='sudo apt-cache search'
+        
+        ;;
 esac
