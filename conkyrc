@@ -74,7 +74,7 @@ TEXT
 ${font Liberation Sans:size=9}
 ${color cyan}${font Radio Space:size=9}N E T W O R K I N G $font
 ${color grey}$hr
-WLAN (${wireless_essid wlan0}):  $alignr ${addr wlan0}
+WLAN:  $alignr ${addr wlan0}
 # Shows the wireless signal strength if wireless is connected
 ${if_match "${addr wlan0}" == "No Address"}\
 ${else}\
@@ -83,6 +83,7 @@ ${color orange}\
 ${endif}\
     +Signal: $alignr ${wireless_link_qual_perc wlan0}%
 ${color grey}\
+    +ESSID: $alignr ${wireless_essid wlan0}
     +Up: $alignr ${upspeed wlan0}
     +Down: $alignr ${downspeed wlan0}
 
