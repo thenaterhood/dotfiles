@@ -36,43 +36,43 @@ windows_mntpt=/mnt/windows_seven
 distro=`cat /etc/issue | head -1 | awk '{print $1}'`
 
 #####################################################
-# Displays a greeting on shell start                #
+# Displays a greeting on shell start				#
 #####################################################
 hour=`date +%H`
 
 # Decides which greeting to use, depending on time of day
 if [ $hour -ge 0 -a $hour -lt 12 ]; then
-    greeting="Good morning, $USER"
+	greeting="Good morning, $USER"
 elif [ $hour -ge 12 -a $hour -lt 19 ]; then
-    greeting="Good afternoon, $USER"
+	greeting="Good afternoon, $USER"
 else
-    greeting="Good evening, $USER"
+	greeting="Good evening, $USER"
 fi
 
 # Displays the greeting
 echo -e "$altred$greeting. You are on"
 # Displays the hostname, in ascii art if figlet is available
 if [ `command -v figlet` ]; then
-    figlet $HOSTNAME
+	figlet $HOSTNAME
 else
-    echo $HOSTNAME
+	echo $HOSTNAME
 fi
 echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
 
 #####################################################
-# Changes the prompt text and colors                #
-# See bash man page for codes.                      #
+# Changes the prompt text and colors				#
+# See bash man page for codes.					  #
 #####################################################
 if [ "$UID" -eq "$ROOT_UID" ]; then
-    PS1="$RED\h $RED\\w\\$ $NORMAL"
+	PS1="$RED\h $RED\\w\\$ $NORMAL"
 else
-    PS1="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+	PS1="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
 fi
 
 #####################################################
 # General aliases to shorten commands/make other OS #
-# commands available (coming fron windows)          #
+# commands available (coming fron windows)		  #
 #####################################################
 alias sl='ls -lr'
 alias ll='ls -lh'
@@ -89,17 +89,18 @@ alias lg='ls | grep'
 alias llg='ls -lh | grep'
 alias lag='ls -alh | grep'
 alias dfh='df -h'
+alias usshfs='fusermount -u'
 
 #####################################################
-# Typo-related aliases                              #
+# Typo-related aliases							  #
 #####################################################
 alias pgp='gpg'
 alias fidget='figlet'
 alias csv='cvs'
 
 #####################################################
-# Application-related shortcuts for accidentally    #
-# using vim/whatever commands in bash               #
+# Application-related shortcuts for accidentally	#
+# using vim/whatever commands in bash			   #
 #####################################################
 alias :q='exit'
 
@@ -116,7 +117,7 @@ alias voldwn='bash $shellzilla/volumeControl.sh down'
 alias volmute='bash $shellzilla/volumeControl.sh mute'
 
 #####################################################
-# Distro/software specific commands                 #
+# Distro/software specific commands				 #
 #####################################################
 alias l='slimlock'
 
@@ -125,61 +126,61 @@ alias sign='pgp --detach-sign'
 alias verify='pgp --verify'
 
 #####################################################
-# Cross-platform alias setup (linux/mac/cygwin)     #
+# Cross-platform alias setup (linux/mac/cygwin)	 #
 #####################################################
 case "$OSTYPE" in 
-    cygwin)
-        # Generic useful aliases
-        alias ls='ls --color=auto'
-        alias win='cd /cygdrive/C'
-        alias winh='cd /cygdrive/C/Users/$windows_username'
-        alias uac='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
-        alias sudo='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
-        alias open='cmd /c start'
-        alias ifconfig='ipconfig'
-        
-        # Service management
-        alias stop='net stop'
-        alias start='net start'
-        alias restart='net restart'
-        ;;
-    linux*)
-        alias ls='ls --color=auto'
-        alias win='cd $windows_mntpt'
-        alias winh='cd $windows_mntpt/Users/$windows_username'
-        alias uac='sudo'
-        alias open='xdg-open'
-        alias ipconfig='ifconfig'
-        ;;
-    darwin*)
-        alias uac='sudo'
-        alias ipconfig='ifconfig'
-        #mac already has an open command
-        
+	cygwin)
+		# Generic useful aliases
+		alias ls='ls --color=auto'
+		alias win='cd /cygdrive/C'
+		alias winh='cd /cygdrive/C/Users/$windows_username'
+		alias uac='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
+		alias sudo='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
+		alias open='cmd /c start'
+		alias ifconfig='ipconfig'
+		
+		# Service management
+		alias stop='net stop'
+		alias start='net start'
+		alias restart='net restart'
+		;;
+	linux*)
+		alias ls='ls --color=auto'
+		alias win='cd $windows_mntpt'
+		alias winh='cd $windows_mntpt/Users/$windows_username'
+		alias uac='sudo'
+		alias open='xdg-open'
+		alias ipconfig='ifconfig'
+		;;
+	darwin*)
+		alias uac='sudo'
+		alias ipconfig='ifconfig'
+		#mac already has an open command
+		
 esac
 
 ######################################################
-# Cross-distribution alias setup (Debian/Arch)       #
+# Cross-distribution alias setup (Debian/Arch)	   #
 ######################################################
 case "$distro" in
-    Arch)
-        # Package management aliases
-        alias Syu='sudo pacman -Syu'
-        alias pacS='sudo pacman -S'
-        alias pacR='sudo pacman -Rs'
-        alias pacsearch='sudo pacman -Ss'
-        alias Syua='sudo yaourt -Syua'
-        
-        # Service management
-        alias sysctl='sudo systemctl'
-        ;;
-    Debian)
-        # Package management aliases        
-        # Pacman stuff, since I'm used to pacman
-        alias Syu='sudo apt-get update && sudo apt-get upgrade'
-        alias pacS='sudo apt-get install'
-        alias pacR='sudo apt-get purge'
-        alias pacsearch='sudo apt-cache search'
-        
-        ;;
+	Arch)
+		# Package management aliases
+		alias Syu='sudo pacman -Syu'
+		alias pacS='sudo pacman -S'
+		alias pacR='sudo pacman -Rs'
+		alias pacsearch='sudo pacman -Ss'
+		alias Syua='sudo yaourt -Syua'
+		
+		# Service management
+		alias sysctl='sudo systemctl'
+		;;
+	Debian)
+		# Package management aliases		
+		# Pacman stuff, since I'm used to pacman
+		alias Syu='sudo apt-get update && sudo apt-get upgrade'
+		alias pacS='sudo apt-get install'
+		alias pacR='sudo apt-get purge'
+		alias pacsearch='sudo apt-cache search'
+		
+		;;
 esac

@@ -18,8 +18,8 @@
 #
 
 #####################################################
-# Sets a few initial variables and makes folders    #
-# that the script expects to exist                  #
+# Sets a few initial variables and makes folders	#
+# that the script expects to exist				  #
 #####################################################
 user=$USER
 basepath=`pwd`
@@ -37,58 +37,58 @@ YELLOW="\033[1;33m"
 
 
 #####################################################
-# Define a few functions to use later               #
+# Define a few functions to use later			   #
 #####################################################
 ok(){
-    echo "$GREEN=> ok -$NORMAL";
+	echo "$GREEN=> ok -$NORMAL";
 }
 notice(){
-    echo "$YELLOW=> notice -$NORMAL";
+	echo "$YELLOW=> notice -$NORMAL";
 }
 error(){
-    echo "$RED\n!> error -$NORMAL";
+	echo "$RED\n!> error -$NORMAL";
 }
 
 rootTasks(){
-    # Performs a few additional tasks if the script has been run
-    # as root.  Moves the dotfiles folder to /opt/dotfiles so that
-    # the (soon to be) system files don't get accidentally overwritten
-    # and asks what user directory to link the personal dotfiles to.
-    # Leaves permissions intact so the user still has rw access
-    # to the files.
-    if [ ! `pwd` = "/opt/dotfiles" ]; then
-        echo -e "$(notice) For security and safety reasons, the dotfiles folder has been moved to /opt/dotfiles since it contains system files."
+	# Performs a few additional tasks if the script has been run
+	# as root.  Moves the dotfiles folder to /opt/dotfiles so that
+	# the (soon to be) system files don't get accidentally overwritten
+	# and asks what user directory to link the personal dotfiles to.
+	# Leaves permissions intact so the user still has rw access
+	# to the files.
+	if [ ! `pwd` = "/opt/dotfiles" ]; then
+		echo -e "$(notice) For security and safety reasons, the dotfiles folder has been moved to /opt/dotfiles since it contains system files."
 
-        mv `pwd` /opt/dotfiles
-        basepath=/opt/dotfiles
-    fi
-    
-    read -p "Install system files (not just personal)? y/n: " doRoot
-    if [ $doRoot = "n" ]; then
-        isRoot=False
-    fi
-    
-    echo -e "$(notice) Please enter the full path to the home directory of the user to install personal dotfiles into\n"
-    echo "Note that this script can be run more than once to install dotfiles to other users as well."
-    read -p "User directory: " home
-    
-    if [ "$home" = "" ]; then home=$HOME; fi
+		mv `pwd` /opt/dotfiles
+		basepath=/opt/dotfiles
+	fi
+	
+	read -p "Install system files (not just personal)? y/n: " doRoot
+	if [ $doRoot = "n" ]; then
+		isRoot=False
+	fi
+	
+	echo -e "$(notice) Please enter the full path to the home directory of the user to install personal dotfiles into\n"
+	echo "Note that this script can be run more than once to install dotfiles to other users as well."
+	read -p "User directory: " home
+	
+	if [ "$home" = "" ]; then home=$HOME; fi
 }
 
 #####################################################
-# Dependency checks                                 #
+# Dependency checks								 #
 #####################################################
 checkRecommended(){
-    if [ ! `command -v $1` ]; then
-        echo -e "$(notice) It is recommended that you install $1."
-    fi
+	if [ ! `command -v $1` ]; then
+		echo -e "$(notice) It is recommended that you install $1."
+	fi
 }
 
 checkRequired(){
-    if [ ! `command -v $1` ]; then
-        echo -e "$(error) could not fine $1, which is required for this script."
-        exit 1
-    fi
+	if [ ! `command -v $1` ]; then
+		echo -e "$(error) could not fine $1, which is required for this script."
+		exit 1
+	fi
 }
 
 checkRequired sed
@@ -99,40 +99,40 @@ checkRecommended tint2
 echo -e "$(notice) This will install ALL the dotfiles into their appropriate locations."
 
 #####################################################
-# Checks if root                                    #
+# Checks if root									#
 #####################################################
 if [ $rootUID != $UID ]; then
-    read -p "Waiting for you to hit enter, as there were important messages"
-    isRoot=False
+	read -p "Waiting for you to hit enter, as there were important messages"
+	isRoot=False
 else
-    isRoot=True
-    rootTasks
+	isRoot=True
+	rootTasks
 fi
 
 #####################################################
 # Iterates through the list of targets in locations #
 #####################################################
 while read p; do
-    # Breaks the location line in the file to its location and basename
-    local=`echo $p | awk '{print $1}'`
-    file=$local
-    target=`echo $p | awk '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
-    
-    # Moves the existing file and links the dotfiles file in its place
-    # depending on user permissions
-    if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ] || [ `echo $target | cut -c 2-6` = 'Users' ] || [ `echo $target | cut -c 2-5` = 'root' ]; then
-    
-        # Moves the existing config file if it exists
-        if [ -e "$target" ] || [ -h "$target" ]; then
-            echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
-            mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
-        fi
-        
-        # Installs the new config file by linking it to the dotfiles folder
-        ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file to $target"
-        
-    else
-        echo -e "$(notice) skipping $file."
-    fi
+	# Breaks the location line in the file to its location and basename
+	local=`echo $p | awk '{print $1}'`
+	file=$local
+	target=`echo $p | awk '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
+	
+	# Moves the existing file and links the dotfiles file in its place
+	# depending on user permissions
+	if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ] || [ `echo $target | cut -c 2-6` = 'Users' ] || [ `echo $target | cut -c 2-5` = 'root' ]; then
+	
+		# Moves the existing config file if it exists
+		if [ -e "$target" ] || [ -h "$target" ]; then
+			echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
+			mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
+		fi
+		
+		# Installs the new config file by linking it to the dotfiles folder
+		ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file to $target"
+		
+	else
+		echo -e "$(notice) skipping $file."
+	fi
 
 done < $basepath/locations

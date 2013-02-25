@@ -81,19 +81,19 @@ ${else}\
 ${if_match ${wireless_link_qual_perc wlan0} <= 55}\
 ${color orange}\
 ${endif}\
-    +Signal: $alignr ${wireless_link_qual_perc wlan0}%
+	+Signal: $alignr ${wireless_link_qual_perc wlan0}%
 ${color grey}\
-    +ESSID: $alignr ${wireless_essid wlan0}
-    +Up: $alignr ${upspeed wlan0}
-    +Down: $alignr ${downspeed wlan0}
+	+ESSID: $alignr ${wireless_essid wlan0}
+	+Up: $alignr ${upspeed wlan0}
+	+Down: $alignr ${downspeed wlan0}
 
 ${endif}\
 LAN: $alignr ${addr eth0}
 ${if_match "${addr eth0}" == "No Address"}\
 ${else}\
-#    +Signal: $alignr ${wireless_link_qual_perc wlan0}%
-    +Up: $alignr ${upspeed eth0}
-    +Down: $alignr ${downspeed eth0}
+#	+Signal: $alignr ${wireless_link_qual_perc wlan0}%
+	+Up: $alignr ${upspeed eth0}
+	+Down: $alignr ${downspeed eth0}
 
 ${endif}\
 WAN: $alignr ${execi 60 curl http://icanhazip.com}
