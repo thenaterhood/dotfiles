@@ -59,10 +59,39 @@ else
 fi
 echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
+#####################################################
+# Functions to make life easier                     #
+#####################################################
+
+# Make an empty git repo with readme, license and gitignore
+# and create a single commit
+mkGit(){
+	# Sets up a git repository skeleton
+	# with an initial README, LICENSE, and
+	# .gitignore and performs an initial
+	# commit after adding all the files.
+	git init
+	basename `pwd` > README.md
+	echo -e "============" >> README.md
+	echo -e '__pycache__' >> .gitignore
+	echo -e 'bin' >> .gitignore
+	echo -e 'LICENSE' >> LICENSE
+	git add LICENSE README.md .gitignore
+	git commit -m "Create repository skeleton"
+}
+
+ufsshfs(){
+	# Forcibly kills and unmounts an SSHFS
+	# endpoint, caused by unfortunate events
+	# where SSHFS has essentially crashed for
+	# an endpoint.
+	killall -KILL sshfs
+	fusermount -u $1
+}
 
 #####################################################
 # Changes the prompt text and colors				#
-# See bash man page for codes.					  #
+# See bash man page for codes.					    #
 #####################################################
 if [ "$UID" -eq "$ROOT_UID" ]; then
 	PS1="$RED\h $RED\\w\\$ $NORMAL"
@@ -82,14 +111,27 @@ alias quit='exit'
 alias cls='clear'
 alias ..='cd ..'
 alias KILLITWITHFIRE='killall -KILL'
+
 alias lgrep='ls | grep'
 alias llgrep='ls -lh | grep'
 alias lagrep='ls -alh | grep'
 alias lg='ls | grep'
 alias llg='ls -lh | grep'
 alias lag='ls -alh | grep'
+
 alias dfh='df -h'
+alias dft='df -T'
 alias usshfs='fusermount -u'
+
+alias py='python'
+alias py2='python2'
+alias mkpy='python3 ~/bin/static_code_generators/createPython.py python'
+
+alias gitstat='git status'
+alias gitcom='git commit'
+alias mkgit='mkGit'
+alias gitpul='git pull'
+alias gitpush='git push'
 
 #####################################################
 # Typo-related aliases							  #
