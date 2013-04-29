@@ -22,9 +22,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Transparency 
+# Transparency
+#
+# Give conky a semi-transparent background
+own_window_argb_visual yes
+own_window_argb_value 125
+own_window_colour 000000
 own_window yes
-own_window_transparent yes
+# Set up full transparency
+own_window_transparent no
 #own_window_argb_visual yes
 own_window_type desktop
 #own_window_class conky-semi
@@ -45,8 +51,8 @@ use_xft yes
 xftalpha 1
 xftfont Lucida Sans:size=9
 gap_x 5
-gap_y 35
-minimum_size 200 500
+gap_y 44
+minimum_size 200 724
 net_avg_samples 2
 no_buffers yes
 out_to_console no
@@ -61,6 +67,7 @@ use_spacer none
 show_graph_scale no
 show_graph_range no
 double_buffer yes
+rounded 50
 
 TEXT
 # Name and sysname
@@ -72,7 +79,7 @@ TEXT
 # General networking/IP addresses
 #
 ${font Liberation Sans:size=9}
-${color cyan}${font Radio Space:size=9}N E T W O R K I N G $font
+${color 00bfff}${font Radio Space:size=9}N E T W O R K I N G $font
 ${color grey}$hr
 WLAN:  $alignr ${addr wlan0}
 # Shows the wireless signal strength if wireless is connected
@@ -101,7 +108,8 @@ WAN: $alignr ${execi 60 curl http://icanhazip.com}
 # Basic system info
 #
 
-${color cyan}${font Radio Space:size=9}S Y S T E M  I N F O$font
+
+${color 00bfff}${font Radio Space:size=9}S Y S T E M  I N F O$font
 ${color grey}$hr
 Host: $alignr $nodename
 # Adds "(plugged in)" after the battery if the system is plugged in
@@ -132,7 +140,7 @@ Processes:$alignr $processes
 #
 # File system info
 #
-${color cyan}${font Radio Space:size=9}F I L E S Y S T E M S $font
+${color 00bfff}${font Radio Space:size=9}F I L E S Y S T E M S $font
 ${color grey}$hr
 # fs bar, orange when drive is over 70% full
 / $alignr ${fs_used /}/${fs_size /} (${fs_used_perc /}%)
@@ -157,6 +165,7 @@ ${color orange}\
 ${else}\
 ${color grey}\
 ${endif}${fs_bar 3 /mnt/windows_seven/}
+${color grey}
 #$hr
 
 #${font radiospace:size=12}${color 8df2a1}${time %A %d %Y}
