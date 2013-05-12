@@ -21,7 +21,9 @@
 #####################################################
 # Configure the terminal
 #####################################################
-
+sbash(){    
+	/usr/bin/ssh $1 -t /bin/bash
+}
 
 #####################################################
 #   Sets the bash color codes to english variables  #
@@ -59,9 +61,9 @@ fi
 echo -e "$altred$greeting. You are on"
 # Displays the hostname, in ascii art if figlet is available
 if [ `command -v figlet` ]; then
-	figlet $HOSTNAME
+	hostname | figlet
 else
-	echo $HOSTNAME
+	hostname
 fi
 echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
@@ -99,10 +101,28 @@ ufsshfs(){
 # Changes the prompt text and colors				#
 # See bash man page for codes.					    #
 #####################################################
+
+# Configure the prompt depending on bash or zsh
+if [ $0 = "bash" ]; then
+	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
+	USERPRMT="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+elif [ $0 = "zsh" ]; then
+	autoload -U colors && colors
+	zstyle ':completion:*' completer _complete _ignored _approximate
+	zstyle :compinstall filename '/home/nate/.zshrc'
+
+	autoload -Uz compinit
+	compinit
+
+	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
+	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
+fi
+
+# Apply the actual prompts for root and users
 if [ "$UID" -eq "$ROOT_UID" ]; then
-	PS1="$RED\h $RED\\w\\$ $NORMAL"
+	PS1=$ROOTPRMT
 else
-	PS1="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+	PS1=$USERPRMT
 fi
 
 #####################################################
@@ -232,3 +252,9 @@ case "$distro" in
 		
 		;;
 esac
+
+CVS_RSH="ssh"; export CVS_RSH
+CVSROOT=:ext:ngl3477@arkansas.cs.rit.edu:/home/stu15/s4/ngl3477/cvs
+export CVSROOT
+
+# try grd-243 lab2-1 HelloWorld.java
