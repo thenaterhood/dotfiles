@@ -103,10 +103,15 @@ ufsshfs(){
 #####################################################
 
 # Configure the prompt depending on bash or zsh
-if [ $0 = "bash" ]; then
+
+case "$0" in
+	"bash"|"-bash")
+
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
 	USERPRMT="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
-elif [ $0 = "zsh" ]; then
+	;;
+
+	"zsh")
 	autoload -U colors && colors
 	zstyle ':completion:*' completer _complete _ignored _approximate
 	zstyle :compinstall filename '/home/nate/.zshrc'
@@ -116,7 +121,9 @@ elif [ $0 = "zsh" ]; then
 
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
-fi
+	;;
+
+esac
 
 # Apply the actual prompts for root and users
 if [ "$UID" -eq "$ROOT_UID" ]; then
