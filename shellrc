@@ -41,7 +41,11 @@ windows_username=$USER
 shellzilla=~/bin/shellzilla
 ROOT_UID=0
 windows_mntpt=/mnt/windows_seven
-distro=`cat /etc/issue | head -1 | awk '{print $1}'`
+if [ -e /etc/issue ]; then
+	distro=`cat /etc/issue | head -1 | awk '{print $1}'`
+else
+	distro=unknown
+fi
 
 #####################################################
 # Displays a greeting on shell start				#
