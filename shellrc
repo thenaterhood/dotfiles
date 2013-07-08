@@ -111,14 +111,14 @@ case "$0" in
 	USERPRMT="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
 	;;
 
-	"zsh")
+	"zsh" |"/bin/zsh" )
 	autoload -U colors && colors
 	zstyle ':completion:*' completer _complete _ignored _approximate
 	zstyle :compinstall filename '/home/nate/.zshrc'
 
 	autoload -Uz compinit
 	compinit
-
+	bindkey -v
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
 	;;
