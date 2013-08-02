@@ -47,6 +47,10 @@ else
 	distro=unknown
 fi
 
+is_ssh=0
+if [ "$SSH_TTY" != "" ]; then
+        is_ssh=1
+fi
 #####################################################
 # Displays a greeting on shell start				#
 #####################################################
@@ -113,6 +117,9 @@ case "$0" in
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
 	USERPRMT="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+	if [ is_ssh -eq 1 ]; then
+		USERPRMT="$YELLOW(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+	fi
 	;;
 
 	"zsh" |"/bin/zsh" )
@@ -125,6 +132,9 @@ case "$0" in
 	bindkey -v
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
+	if [ is_ssh -eq 1 ]; then
+		USERPRMT="%{fg_bold[yellow]%}(%*) %{reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
+	fi
 	;;
 
 esac
@@ -264,7 +274,8 @@ case "$distro" in
 		;;
 esac
 
-CVS_RSH="ssh"; export CVS_RSH
+alias push='~/bin/dev_scripts/push.py'
+CVS_RSH='~/bin/dev_scripts/push.py'"ssh"; export CVS_RSH
 CVSROOT=:ext:ngl3477@arkansas.cs.rit.edu:/home/stu15/s4/ngl3477/cvs
 export CVSROOT
 
