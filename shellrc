@@ -49,7 +49,7 @@ else
 fi
 
 is_ssh=0
-if [ "$SSH_TTY" != "" ]; then
+if [ "$SSH_CONNECTION" != "" ]; then
         is_ssh=1
 fi
 #####################################################
