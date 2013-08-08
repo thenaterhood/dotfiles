@@ -1,174 +1,59 @@
-# Conky, a system monitor, based on torsmo
 #
-# Any original torsmo code is licensed under the BSD license
+# Based on Gotham by psyjunta (http://psyjunta.deviantart.com/art/Gotham-Conky-config-205465419)
 #
-# All code written since the fork of torsmo is licensed under the GPL
+# Nate Levesque <public@thenaterhood.com>
 #
-# Please see COPYING for details
 #
-# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
-# Copyright (c) 2005-2010 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
-# All rights reserved.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Transparency
-#
-# Give conky a semi-transparent background
+
+use_xft yes
+xftfont 123:size=8
+xftalpha 100
+update_interval 1
+total_run_times 0
 own_window_argb_visual yes
 own_window_argb_value 125
 own_window_colour 000000
 own_window yes
 # Set up full transparency
-own_window_transparent no
+own_window_transparent yes
 #own_window_argb_visual yes
-own_window_type desktop
+own_window_type dock
 #own_window_class conky-semi
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 # End section
-alignment top_right
-background yes
-border_width 1
-cpu_avg_samples 2
-default_color 656667
-default_outline_color 000000
-default_shade_color 828282
-draw_borders no
-draw_graph_borders yes
-draw_outline yes
-draw_shades no
-use_xft yes
-xftalpha 1
-xftfont Lucida Sans:size=9
-gap_x 5
-gap_y 44
-minimum_size 200 724
-net_avg_samples 2
-no_buffers yes
-out_to_console no
-out_to_stderr no
-extra_newline no
-own_window yes
-#own_window_class Conky
-stippled_borders 0
-update_interval 1.0
-uppercase no
-use_spacer none
-show_graph_scale no
-show_graph_range no
 double_buffer yes
-rounded 50
+minimum_size 220 0
+maximum_width 1000
+draw_shades no
+draw_outline yes
+draw_borders no
+draw_graph_borders no
+default_color white
+default_shade_color red
+default_outline_color black
+alignment bottom_left
+gap_x 60
+gap_y 600
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+net_avg_samples 1
+override_utf8_locale yes
+use_spacer yes
+#former color was FFA300 - this is an orange
+#current color is 6699FF - this is a blue
 
 TEXT
-# Name and sysname
-#
-#${font Radio Space:size=20}${color 8df2a1}${execi 3600 whoami}${color b9d775}
-#${font Radio Space:size=12}${color 8df2a1}$sysname $kernel
-#${color grey}$hr
-#
-# General networking/IP addresses
-#
-${font Liberation Sans:size=9}
-${color 00bfff}${font Radio Space:size=9}N E T W O R K I N G $font
-${color grey}$hr
-WLAN:  $alignr ${addr wlan0}
-# Shows the wireless signal strength if wireless is connected
-${if_match "${addr wlan0}" == "No Address"}\
-${else}\
-${if_match ${wireless_link_qual_perc wlan0} <= 55}\
-${color orange}\
-${endif}\
-	+Signal: $alignr ${wireless_link_qual_perc wlan0}%
-${color grey}\
-	+ESSID: $alignr ${wireless_essid wlan0}
-	+Up: $alignr ${upspeed wlan0}
-	+Down: $alignr ${downspeed wlan0}
-
-${endif}\
-LAN: $alignr ${addr eth0}
-${if_match "${addr eth0}" == "No Address"}\
-${else}\
-#	+Signal: $alignr ${wireless_link_qual_perc wlan0}%
-	+Up: $alignr ${upspeed eth0}
-	+Down: $alignr ${downspeed eth0}
-
-${endif}\
-WAN: $alignr ${execi 60 curl http://icanhazip.com}
-#
-# Basic system info
-#
+${voffset 10}${color EAEAEA}${font Radio Space:pixelsize=120}${time %H:%M}${font}${voffset -84}${offset 10}${voffset 0}${color EAEAEA}${font GE Inspira:pixelsize=42}: ${time %S} ${voffset 55}${offset -63}${font GE Inspira:pixelsize=42} ${color 6699FF}${time %D}${font}${voffset 24}${font GE Inspira:pixelsize=22}${offset -100}${voffset 42}${font}
+${voffset -60}${offset 12}${font GE Inspira:pixelsize=10}${color 6699FF}HD ${offset 9}$color${fs_free /} / ${fs_size /}${offset 30}${color 6699FF}RAM ${offset 9}$color$mem / $memmax${offset 30}${color 6699FF}CPU ${offset 9}$color${cpu cpu0}% ${offset 30}${color 6699FF}WAN ${offset 9}$color${execi 60 curl icanhazip.com}
 
 
-${color 00bfff}${font Radio Space:size=9}S Y S T E M  I N F O$font
-${color grey}$hr
-Host: $alignr $nodename
-# Adds "(plugged in)" after the battery if the system is plugged in
-Battery${if_existing /sys/class/power_supply/ADP1/online 1} (plugged in):\
-${else}:\
-${endif}\
-# Changes the color of the battery percent to red if the battery is low
-$alignr ${if_match ${battery_percent BAT0} <= 20}\
-${color ff0000}\
-${else}\
-${if_existing /sys/class/power_supply/ADP1/online 1}\
-${else}${color grey}\
-${endif}\
-${endif}\
-${battery_percent}%\
-${color grey}
-#${color grey}Frequency (in MHz):$color $freq
-#${color grey}Frequency (in GHz):$color $freq_g
-RAM Usage:$alignr $memperc%
-#${color grey}Swap Usage:$color $alignr $swapperc%
-CPU Usage:$alignr $cpu%
-Up: $alignr $uptime
-Kernel: $alignr $kernel
-Processes:$alignr $processes
-#  ${color grey}Running:$color $running_processes
 
 
-#
-# File system info
-#
-${color 00bfff}${font Radio Space:size=9}F I L E S Y S T E M S $font
-${color grey}$hr
-# fs bar, orange when drive is over 70% full
-/ $alignr ${fs_used /}/${fs_size /} (${fs_used_perc /}%)
-${if_match ${fs_used_perc /} >= 70}\
-${color orange}\
-${else}\
-${color grey}\
-${endif}\
-${fs_bar 3 /}
-# Provides a percentage and fs bar (orange when drive is over 70% full)
-/home $alignr ${fs_used /home}/${fs_size /home} (${fs_used_perc /home}%)
-${if_match ${fs_used_perc /home} >= 70}\
-${color orange}\
-${else}\
-${color grey}\
-${endif}\
-${fs_bar 3 /home}
-# Provides a percentage and filesystem bar (turns orange when drive is more than 70% full)
-Windows $alignr ${fs_used /mnt/windows_seven/}/${fs_size /mnt/windows_seven/} (${fs_used_perc /mnt/windows_seven/}%)
-${if_match ${fs_used_perc /mnt/windows_seven} >= 70}\
-${color orange}\
-${else}\
-${color grey}\
-${endif}${fs_bar 3 /mnt/windows_seven/}
-${color grey}
-#$hr
 
-#${font radiospace:size=12}${color 8df2a1}${time %A %d %Y}
-#${font Radio Space:size=20}${color 8df2a1}${time %H:%M}
+
+
+
+
 
 
