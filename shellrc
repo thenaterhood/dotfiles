@@ -126,7 +126,7 @@ case "$0" in
 	
 	# Make the special keys (home/del/end) work
 	bindkey -v
-	eval "$(sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc)"
+	eval "$(sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc)" &>/dev/null
 	
 	# Set up the shell
 	autoload -U colors && colors
