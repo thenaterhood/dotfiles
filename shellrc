@@ -185,6 +185,8 @@ alias gitcom='git commit'
 alias mkgit='mkGit'
 alias gitpul='git pull'
 alias gitpush='git push'
+alias gush='git push'
+alias gull='git pull'
 
 #####################################################
 # Typo-related aliases							  #
