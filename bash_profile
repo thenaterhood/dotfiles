@@ -9,7 +9,7 @@
 #	change this file.
 
 system=/usr/local/lib/config/Bash_Profile
-personal=~/.bashrc
+personal=$HOME/.bashrc
 
 if [ -f $system ]; then
 	echo "Found systemwide bash profile, applying..."
