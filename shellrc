@@ -20,9 +20,7 @@
 #####################################################
 # Configure the terminal
 #####################################################
-sbash(){    
-	/usr/bin/ssh $1 -t /bin/bash
-}
+export EDITOR=vim
 
 #####################################################
 #   Sets the bash color codes to english variables  #

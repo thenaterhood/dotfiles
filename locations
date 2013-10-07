@@ -10,3 +10,4 @@ synaptics	$ROOT/etc/X11/xorg.conf.d/10-synaptics.conf
 jupiter/fixedNotifications	$ROOT/usr/lib/jupiter/scripts/notify
 vconsole.conf	$ROOT/etc/vconsole.conf
 bash_profile	$HOME/.bash_profile
+vimrc	$HOME/.vimrc
