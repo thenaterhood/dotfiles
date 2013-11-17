@@ -134,6 +134,10 @@ case "$0" in
 	autoload -Uz compinit
 	compinit
 	bindkey -v
+	HISTSIZE=5000
+	setopt APPEND_HISTORY
+	SAVEHIST=5000
+	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
 	if [ $is_ssh -eq 1 ]; then
