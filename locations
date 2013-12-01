@@ -11,3 +11,4 @@ jupiter/fixedNotifications	$ROOT/usr/lib/jupiter/scripts/notify
 vconsole.conf	$ROOT/etc/vconsole.conf
 bash_profile	$HOME/.bash_profile
 vimrc	$HOME/.vimrc
+motd	$ROOT/etc/motd
