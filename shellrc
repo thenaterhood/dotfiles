@@ -56,21 +56,16 @@ hour=`date +%H`
 
 # Decides which greeting to use, depending on time of day
 if [ $hour -ge 0 -a $hour -lt 12 ]; then
-	greeting="Good morning, $USER"
+	greeting="Good morning! You are on `hostname`."
 elif [ $hour -ge 12 -a $hour -lt 19 ]; then
-	greeting="Good afternoon, $USER"
+	greeting="Good afternoon! You are on `hostname`."
 else
-	greeting="Good evening, $USER"
+	greeting="Good evening! You are on `hostname`."
 fi
 
 # Displays the greeting
-echo -e "$altred$greeting. You are on"
+echo -e "$altred$greeting"
 # Displays the hostname, in ascii art if figlet is available
-if [ `command -v figlet` ]; then
-	hostname | figlet
-else
-	hostname
-fi
 echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
 #####################################################
