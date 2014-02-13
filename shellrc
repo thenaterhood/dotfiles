@@ -31,7 +31,9 @@ GREEN="\[\033[1;32m\]"
 BLUE="\[\033[34;1m\]"
 YELLOW="\[\033[33;1m\]"
 altred="\033[1;31m"
-
+BGGREEN="\e[30;48;5;82m"
+BGBLUE="\e[30;48;5;39m"
+BGYELLOW="\e[30;48;5;11m"
 #####################################################
 # Sets a few prelimary variables for later commands #
 #####################################################
@@ -109,9 +111,9 @@ case "$0" in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+	USERPRMT="$NORMAL$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="$YELLOW(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+		USERPRMT="$NORMAL$YELLOW(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
 	fi
 	;;
 
