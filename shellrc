@@ -107,7 +107,7 @@ ufsshfs(){
 
 # Configure the prompt depending on bash or zsh
 
-case "$0" in
+case `basename $SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
@@ -136,9 +136,9 @@ case "$0" in
 	SAVEHIST=5000
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
-	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
+	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%} "
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="%{$fg_bold[yellow]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%}"
+		USERPRMT="%{$fg_bold[yellow]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%} "
 	fi
 	;;
 
@@ -146,9 +146,9 @@ esac
 
 # Apply the actual prompts for root and users
 if [ "$UID" -eq "$ROOT_UID" ]; then
-	PS1=$ROOTPRMT
+	PS1="$ROOTPRMT"
 else
-	PS1=$USERPRMT
+	PS1="$USERPRMT"
 fi
 
 #####################################################
