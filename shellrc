@@ -106,8 +106,9 @@ ufsshfs(){
 #####################################################
 
 # Configure the prompt depending on bash or zsh
+RUNNING_SHELL=`readlink -f /proc/$$/exe`
 
-case `basename $SHELL` in
+case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
@@ -118,7 +119,6 @@ case `basename $SHELL` in
 	;;
 
 	"zsh" |"/bin/zsh" | "/usr/bin/zsh" )
-	
 	# Make the special keys (home/del/end) work
 	bindkey -v
 	eval "$(sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc)" &>/dev/null
