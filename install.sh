@@ -12,6 +12,8 @@
 #   The idea was to give the script as much flexibility as possible
 #   so that it can have uses beyond installing dotfiles.
 #
+#   Licensed under the BSD license. See LICENSE for full license
+#
 # TODO:
 #   Add an update ability
 #   Add the ability to restore from dotfiles.old files
