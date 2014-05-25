@@ -12,3 +12,4 @@ vconsole.conf	$ROOT/etc/vconsole.conf
 bash_profile	$HOME/.bash_profile
 vimrc	$HOME/.vimrc
 motd	$ROOT/etc/motd
+10-keyboard.conf $ROOT/usr/share/X11/xorg.conf.d/10-keyboard.conf
