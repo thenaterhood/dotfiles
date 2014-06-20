@@ -164,6 +164,8 @@ alias cls='clear'
 alias ..='cd ..'
 alias KILLITWITHFIRE='killall -KILL'
 
+alias rgr='grep -Rn'
+
 alias lgrep='ls | grep'
 alias llgrep='ls -lh | grep'
 alias lagrep='ls -alh | grep'
