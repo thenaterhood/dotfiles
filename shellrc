@@ -173,6 +173,8 @@ alias lg='ls | grep'
 alias llg='ls -lh | grep'
 alias lag='ls -alh | grep'
 
+alias phack='ack --php'
+
 alias dfh='df -h'
 alias dft='df -T'
 alias usshfs='fusermount -u'
@@ -188,7 +190,8 @@ alias gitpul='git pull'
 alias gitpush='git push'
 alias gush='git push'
 alias gull='git pull'
-
+alias greb='git rebase'
+alias gdiff='git diff'
 #####################################################
 # Typo-related aliases							  #
 #####################################################
