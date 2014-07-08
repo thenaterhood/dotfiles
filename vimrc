@@ -4,8 +4,8 @@
 "" Enable syntax highlighting
 syntax on
 
-"" Enable absolute line numbers
-set number
+"" Enable relative line numbers
+set relativenumber
 
 "" Enable mouse support
 set mouse=a
