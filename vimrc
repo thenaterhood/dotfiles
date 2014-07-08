@@ -4,6 +4,9 @@
 "" Enable syntax highlighting
 syntax on
 
+"" Put a warning line at 80 chars
+set colorcolumn=80
+
 "" Enable relative line numbers
 set relativenumber
 
