@@ -7,6 +7,12 @@ syntax on
 "" Enable relative line numbers
 set relativenumber
 
+"" Enable absolute line numbers 
+"" (with the option above, this shows
+"" the 'real' line number on the line 
+"" the cursor is on rather than 0.
+set number
+
 "" Enable mouse support
 set mouse=a
 
