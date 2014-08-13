@@ -192,6 +192,8 @@ alias gush='git push'
 alias gull='git pull'
 alias greb='git rebase'
 alias gdiff='git diff'
+alias getch='git fetch'
+alias gatch='git fetch --all'
 #####################################################
 # Typo-related aliases							  #
 #####################################################
