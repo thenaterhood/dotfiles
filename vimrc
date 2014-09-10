@@ -23,6 +23,9 @@ set mouse=a
 set autoindent
 set smartindent
 
+"" Use the system clipboard
+set clipboard=unnamedplus
+
 "" Show a line across the row the cursor is on
 set cursorline
 
