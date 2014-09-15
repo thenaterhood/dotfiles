@@ -1,6 +1,10 @@
 "" Nate Levesque
 ""
 
+"" Keep some space between the cursor
+"" and the top/bottom of the screen
+set scrolloff=5
+
 "" Enable syntax highlighting
 syntax on
 
