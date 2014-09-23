@@ -1,6 +1,12 @@
 "" Nate Levesque
 ""
 
+"Remember cursor location in files
+if has("autocmd")
+	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+	\| exe "normal! g'\"" | endif
+endif
+
 "" Highlight search results
 set hlsearch
 
@@ -15,7 +21,7 @@ syntax on
 set colorcolumn=80
 
 "" Enable relative line numbers
-set relativenumber
+""set relativenumber
 
 "" Enable absolute line numbers 
 "" (with the option above, this shows
