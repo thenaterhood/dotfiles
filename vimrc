@@ -1,6 +1,9 @@
 "" Nate Levesque
 ""
 
+"" Highlight search results
+set hlsearch
+
 "" Keep some space between the cursor
 "" and the top/bottom of the screen
 set scrolloff=5
