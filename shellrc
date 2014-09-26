@@ -131,6 +131,7 @@ case `basename $RUNNING_SHELL` in
 	autoload -Uz compinit
 	compinit
 	bindkey -v
+	bindkey "^R" history-incremental-search-backward
 	HISTSIZE=5000
 	setopt APPEND_HISTORY
 	SAVEHIST=5000
