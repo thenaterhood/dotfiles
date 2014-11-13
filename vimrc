@@ -1,6 +1,6 @@
 "" Nate Levesque
 ""
-
+set laststatus=1
 "" Wrap the cursor at the end of lines
 set whichwrap+=<,>,h,l,[,]
 
