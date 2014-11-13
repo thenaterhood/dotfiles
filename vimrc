@@ -38,6 +38,9 @@ set smartindent
 set expandtab
 filetype indent plugin on
 
+""" Backspace works intelligently
+set backspace=indent,eol,start
+
 "" Use the system clipboard
 set clipboard=unnamedplus
 
