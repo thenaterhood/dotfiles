@@ -18,6 +18,10 @@ set omnifunc=syntaxcomplete#Complete
 "" Highlight search results
 set hlsearch
 
+"" Start searching right when you start typing, no
+"" need to hit enter
+set incsearch
+
 "" Keep some space between the cursor
 "" and the top/bottom of the screen
 set scrolloff=5
