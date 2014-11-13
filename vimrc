@@ -1,6 +1,9 @@
 "" Nate Levesque
 ""
 
+"" Wrap the cursor at the end of lines
+set whichwrap+=<,>,h,l,[,]
+
 "Remember cursor location in files
 if has("autocmd")
 	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
@@ -19,6 +22,7 @@ syntax on
 
 "" Put a warning line at 80 chars
 set colorcolumn=80
+highlight ColorColumn ctermbg=6
 
 "" Enable relative line numbers
 ""set relativenumber
