@@ -1,6 +1,7 @@
 "" Nate Levesque
 ""
 set laststatus=1
+
 "" Wrap the cursor at the end of lines
 set whichwrap+=<,>,h,l,[,]
 
@@ -9,6 +10,10 @@ if has("autocmd")
 	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 	\| exe "normal! g'\"" | endif
 endif
+
+"" Enable code completion
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 
 "" Highlight search results
 set hlsearch
