@@ -35,6 +35,8 @@ set mouse=a
 "" Enable autoindenting
 set autoindent
 set smartindent
+set expandtab
+filetype indent plugin on
 
 "" Use the system clipboard
 set clipboard=unnamedplus
