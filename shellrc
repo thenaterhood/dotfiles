@@ -112,9 +112,9 @@ case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$BLUE(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+	USERPRMT="$NORMAL$GREEN\u@\h \\w\n\\$ $NORMAL"
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="$NORMAL$YELLOW(\t)$NORMAL $GREEN\u@\h \\w\\$ $NORMAL"
+		USERPRMT="$NORMAL$GREEN\u@\h \\w\n\\$ $NORMAL"
 	fi
 	;;
 
@@ -122,7 +122,7 @@ case `basename $RUNNING_SHELL` in
 	# Make the special keys (home/del/end) work
 	bindkey -v
 	eval "$(sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc)" &>/dev/null
-	
+
 	# Set up the shell
 	autoload -U colors && colors
 	zstyle ':completion:*' completer _complete _ignored _approximate
@@ -137,9 +137,9 @@ case `basename $RUNNING_SHELL` in
 	SAVEHIST=5000
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
-	USERPRMT="%{$fg_bold[blue]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%} "
+	USERPRMT="%{$reset_color%}%{$fg_bold[green]%}%n@%m %~ zsh"$'\n'"$%{$reset_color%} "
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="%{$fg_bold[yellow]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ z$%{$reset_color%} "
+		USERPRMT="%{$fg_bold[yellow]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ zsh"$'\n'"$%{$reset_color%} "
 	fi
 	;;
 
