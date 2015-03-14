@@ -29,6 +29,8 @@ NORMAL="\[\033[0m\]"
 RED="\[\033[31;1m\]"
 GREEN="\[\033[1;32m\]"
 BLUE="\[\033[34;1m\]"
+CYAN="\[\033[0;36m\]"
+DYELLOW="\[\033[0;33m\]"
 YELLOW="\[\033[33;1m\]"
 altred="\033[1;31m"
 BGGREEN="\e[30;48;5;82m"
@@ -112,9 +114,9 @@ case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$GREEN\u@\h \\w\n\\$ $NORMAL"
+	USERPRMT="$NORMAL$CYAN\u@\h $NORMAL$DYELLOW\\w\n\\$ $NORMAL"
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="$NORMAL$GREEN\u@\h \\w\n\\$ $NORMAL"
+		USERPRMT="$NORMAL$YELLOW\u@\h $NORMAL$DYELLOW\\w\n\\$ $NORMAL"
 	fi
 	;;
 
@@ -137,9 +139,9 @@ case `basename $RUNNING_SHELL` in
 	SAVEHIST=5000
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
-	USERPRMT="%{$reset_color%}%{$fg_bold[green]%}%n@%m %~ zsh"$'\n'"$%{$reset_color%} "
+	USERPRMT="%{$reset_color%}%{$fg[cyan]%}%n@%m:%{$reset_color%} %{$fg[yellow]%} %~ zsh"$'\n'"$%{$reset_color%} "
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="%{$fg_bold[yellow]%}(%*) %{$reset_color%}%{$fg_bold[green]%}%n@%m %~ zsh"$'\n'"$%{$reset_color%} "
+		USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"$%{$reset_color%} "
 	fi
 	;;
 
