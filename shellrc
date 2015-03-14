@@ -31,7 +31,7 @@ GREEN="\[\033[1;32m\]"
 BLUE="\[\033[34;1m\]"
 CYAN="\[\033[0;36m\]"
 DYELLOW="\[\033[0;33m\]"
-YELLOW="\[\033[33;1m\]"
+BOLD_YELLOW="\[\033[33;1m\]"
 altred="\033[1;31m"
 BGGREEN="\e[30;48;5;82m"
 BGBLUE="\e[30;48;5;39m"
@@ -116,7 +116,7 @@ case `basename $RUNNING_SHELL` in
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
 	USERPRMT="$NORMAL$CYAN\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
 	if [ $is_ssh -eq 1 ]; then
-		USERPRMT="$NORMAL$YELLOW\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
+		USERPRMT="$NORMAL$BOLD_YELLOW\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
 	fi
 	;;
 
