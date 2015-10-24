@@ -10,9 +10,10 @@
 [[ $- != *i* ]] && return
 
 #####################################################
-# Configure the terminal
+# Configure the environment
 #####################################################
 export EDITOR=vim
+export PATH=$PATH:/home/nate/bin:/home/nate/bin/shellzilla
 
 #####################################################
 #   Sets the bash color codes to english variables
@@ -32,13 +33,17 @@ BGYELLOW="\e[30;48;5;11m"
 #####################################################
 # Sets a few prelimary variables for later commands
 #####################################################
-shellzilla=~/bin/shellzilla
+SHELLZILLA=~/bin/shellzilla
 ROOT_UID=0
+RUNNING_SHELL=`readlink -f /proc/$$/exe`
 
-is_ssh=0
-if [ "$SSH_CONNECTION" != "" ]; then
-        is_ssh=1
+if [ "`which powerline-daemon`" != 'powerline-daemon not found' ]; then
+        PWRLINE=1
+else
+        PWRLINE=0
 fi
+
+if [ "$SSH_CONNECTION" != "" ]; then SSH_SESS=1; else SSH_SESS=0; fi
 
 #####################################################
 # Displays a greeting on shell start
@@ -74,16 +79,12 @@ ufsshfs(){
 # Changes the prompt text and colors
 # See bash man page for codes
 #####################################################
-
-# Configure the prompt depending on bash or zsh
-RUNNING_SHELL=`readlink -f /proc/$$/exe`
-
 case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
 	USERPRMT="$NORMAL$CYAN\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
-	if [ $is_ssh -eq 1 ]; then
+	if [ $SSH_SESS -eq 1 ]; then
 		USERPRMT="$NORMAL$BOLD_YELLOW\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
 	fi
 	;;
@@ -108,7 +109,7 @@ case `basename $RUNNING_SHELL` in
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 	USERPRMT="%{$reset_color%}%{$fg[cyan]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
-	if [ $is_ssh -eq 1 ]; then
+	if [ $SSH_SESS -eq 1 ]; then
 		USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
 	fi
 	;;
@@ -171,14 +172,14 @@ alias :q='exit'
 #####################################################
 # Aliases to call scripts (found in shellzilla repo)
 #####################################################
-alias displays='bash $shellzilla/display_configurator.sh'
-alias touchpad='bash $shellzilla/touchpad_switch.sh'
-alias rip='bash $shellzilla/audio_ripper.sh'
-alias backup='$shellzilla/system_backup.sh'
-alias suspend='bash $shellzilla/suspend.sh'
-alias volup='bash $shellzilla/volumeControl.sh up'
-alias voldwn='bash $shellzilla/volumeControl.sh down'
-alias volmute='bash $shellzilla/volumeControl.sh mute'
+alias displays='display_configurator.sh'
+alias touchpad='devswitch.sh touchpad'
+alias rip='audio_ripper.sh'
+alias backup='system_backup.sh'
+alias suspend='suspend.sh'
+alias volup='volumeControl.sh up'
+alias voldwn='volumeControl.sh down'
+alias volmute='volumeControl.sh mute'
 
 #####################################################
 # Distro/software specific commands
