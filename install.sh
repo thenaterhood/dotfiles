@@ -14,6 +14,22 @@
 #
 #   Licensed under the BSD license. See LICENSE for full license
 
+NORMAL="\033[0m"
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+BLUE="\033[34;1m"
+YELLOW="\033[1;33m"
+
+ok(){
+	echo -e "$GREEN[INFO] $NORMAL $1";
+}
+notice(){
+	echo -e "$YELLOW[WARN] $NORMAL $1";
+}
+error(){
+	echo -e "$RED[FAIL] $NORMAL $1";
+}
+
 #####################################################
 # Sets a few initial variables and makes folders
 # that the script expects to exist
@@ -23,29 +39,12 @@ basepath=`pwd`
 home=$HOME
 root=''
 rootUID=0
-mkdir ~/dotfiles.old 2>/dev/null || echo -e "$(error) could not create backup directory"
-mkdir ~/.config 2>/dev/null || echo -e "$(error) could not create .config directory"
-
-NORMAL="\033[0m"
-RED="\033[1;31m"
-GREEN="\033[1;32m"
-BLUE="\033[34;1m"
-YELLOW="\033[1;33m"
-
+mkdir ~/dotfiles.old 2>/dev/null || error "could not create backup directory"
+mkdir ~/.config 2>/dev/null || error "could not create .config directory"
 
 #####################################################
 # Define a few functions to use later
 #####################################################
-ok(){
-	echo "$GREEN=> ok -$NORMAL";
-}
-notice(){
-	echo "$YELLOW=> notice -$NORMAL";
-}
-error(){
-	echo "$RED\n!> error -$NORMAL";
-}
-
 rootTasks(){
 	# Performs a few additional tasks if the script has been run
 	# as root.  Moves the dotfiles folder to /opt/dotfiles so that
@@ -54,7 +53,7 @@ rootTasks(){
 	# Leaves permissions intact so the user still has rw access
 	# to the files.
 	if [ ! `pwd` = "/opt/dotfiles" ]; then
-		echo -e "$(notice) For security and safety reasons, the dotfiles folder has been moved to /opt/dotfiles since it contains system files."
+		notice "For security and safety reasons, the dotfiles folder has been moved to /opt/dotfiles since it contains system files."
 
 		mv `pwd` /opt/dotfiles
 		basepath=/opt/dotfiles
@@ -65,7 +64,7 @@ rootTasks(){
 		isRoot=False
 	fi
 
-	echo -e "$(notice) Please enter the full path to the home directory of the user to install personal dotfiles into\n"
+	notice "Please enter the full path to the home directory of the user to install personal dotfiles into\n"
 	echo "Note that this script can be run more than once to install dotfiles to other users as well."
 	read -p "User directory: " home
 
@@ -77,13 +76,13 @@ rootTasks(){
 #####################################################
 checkRecommended(){
 	if [ ! `command -v $1` ]; then
-		echo -e "$(notice) It is recommended that you install $1."
+		notice "It is recommended that you install $1."
 	fi
 }
 
 checkRequired(){
 	if [ ! `command -v $1` ]; then
-		echo -e "$(error) could not fine $1, which is required for this script."
+		error "could not fine $1, which is required for this script."
 		exit 1
 	fi
 }
@@ -93,7 +92,7 @@ checkRequired awk
 checkRecommended conky
 checkRecommended tint2
 
-echo -e "$(notice) This will install ALL the dotfiles into their appropriate locations."
+notice "This will install ALL the dotfiles into their appropriate locations."
 
 #####################################################
 # Checks if root
@@ -121,15 +120,15 @@ while read p; do
 
 		# Moves the existing config file if it exists
 		if [ -e "$target" ] || [ -h "$target" ]; then
-			echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
-			mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
+			notice "$file exists, moving it to ~/dotfiles.old"
+			mv $target $HOME/dotfiles.old/ || error "could not move $file out of the way"
 		fi
 
 		# Installs the new config file by linking it to the dotfiles folder
-		ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file to $target"
+		ln -s $basepath/$local $target && ok "Installed $file to $target" || error "could not install $file to $target"
 
 	else
-		echo -e "$(notice) skipping $file."
+		error "skipping $file."
 	fi
 
 done < $basepath/locations
