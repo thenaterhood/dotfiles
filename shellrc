@@ -291,9 +291,3 @@ case "$distro" in
 		;;
 esac
 
-alias push='~/bin/dev_scripts/push.py'
-CVS_RSH='~/bin/dev_scripts/push.py'"ssh"; export CVS_RSH
-CVSROOT=:ext:ngl3477@arkansas.cs.rit.edu:/home/stu15/s4/ngl3477/cvs
-export CVSROOT
-
-# try grd-243 lab2-1 HelloWorld.java
