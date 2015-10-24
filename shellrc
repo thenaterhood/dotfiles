@@ -64,10 +64,6 @@ echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 # Make an empty git repo with readme, license and gitignore
 # and create a single commit
 mkgit(){
-	# Sets up a git repository skeleton
-	# with an initial README, LICENSE, and
-	# .gitignore and performs an initial
-	# commit after adding all the files.
 	git init
 	basename `pwd` > README.md
 	echo -e "============" >> README.md
@@ -78,11 +74,9 @@ mkgit(){
 	git commit -m "Create repository skeleton"
 }
 
+# Forcibly kills and unmounts an SSHFS endpoint
+# for unfortunate situations where SSHFS has crashed
 ufsshfs(){
-	# Forcibly kills and unmounts an SSHFS
-	# endpoint, caused by unfortunate events
-	# where SSHFS has essentially crashed for
-	# an endpoint.
 	killall -KILL sshfs
 	fusermount -u $1
 }
