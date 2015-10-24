@@ -8,20 +8,15 @@
 #   Creates symlinks to the dotfiles in their appropriate
 #   locations relative to a home directory or the partition root.
 #   The script will create symlinks for other files
-#   as well if their locations are listed in the locations file.  
+#   as well if their locations are listed in the locations file.
 #   The idea was to give the script as much flexibility as possible
 #   so that it can have uses beyond installing dotfiles.
 #
 #   Licensed under the BSD license. See LICENSE for full license
-#
-# TODO:
-#   Add an update ability
-#   Add the ability to restore from dotfiles.old files
-#
 
 #####################################################
-# Sets a few initial variables and makes folders	#
-# that the script expects to exist				  #
+# Sets a few initial variables and makes folders
+# that the script expects to exist
 #####################################################
 user=$USER
 basepath=`pwd`
@@ -39,7 +34,7 @@ YELLOW="\033[1;33m"
 
 
 #####################################################
-# Define a few functions to use later			   #
+# Define a few functions to use later
 #####################################################
 ok(){
 	echo "$GREEN=> ok -$NORMAL";
@@ -64,21 +59,21 @@ rootTasks(){
 		mv `pwd` /opt/dotfiles
 		basepath=/opt/dotfiles
 	fi
-	
+
 	read -p "Install system files (not just personal)? y/n: " doRoot
 	if [ $doRoot = "n" ]; then
 		isRoot=False
 	fi
-	
+
 	echo -e "$(notice) Please enter the full path to the home directory of the user to install personal dotfiles into\n"
 	echo "Note that this script can be run more than once to install dotfiles to other users as well."
 	read -p "User directory: " home
-	
+
 	if [ "$home" = "" ]; then home=$HOME; fi
 }
 
 #####################################################
-# Dependency checks								 #
+# Dependency checks
 #####################################################
 checkRecommended(){
 	if [ ! `command -v $1` ]; then
@@ -101,7 +96,7 @@ checkRecommended tint2
 echo -e "$(notice) This will install ALL the dotfiles into their appropriate locations."
 
 #####################################################
-# Checks if root									#
+# Checks if root
 #####################################################
 if [ $rootUID != $UID ]; then
 	read -p "Waiting for you to hit enter, as there were important messages"
@@ -112,27 +107,27 @@ else
 fi
 
 #####################################################
-# Iterates through the list of targets in locations #
+# Iterates through the list of targets in locations
 #####################################################
 while read p; do
 	# Breaks the location line in the file to its location and basename
 	local=`echo $p | awk '{print $1}'`
 	file=$local
 	target=`echo $p | awk '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
-	
-	# Moves the existing file and links the dotfiles file in its place
+
+        # Moves the existing file and links the dotfiles file in its place
 	# depending on user permissions
 	if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ] || [ `echo $target | cut -c 2-6` = 'Users' ] || [ `echo $target | cut -c 2-5` = 'root' ]; then
-	
+
 		# Moves the existing config file if it exists
 		if [ -e "$target" ] || [ -h "$target" ]; then
 			echo -e "$(notice) $file exists, moving it to ~/dotfiles.old"
 			mv $target $HOME/dotfiles.old/ || echo -e "$(error) could not move $file out of the way"
 		fi
-		
+
 		# Installs the new config file by linking it to the dotfiles folder
 		ln -s $basepath/$local $target && echo -e "$(ok) Installed $file to $target" || echo -e "$(error) could not install $file to $target"
-		
+
 	else
 		echo -e "$(notice) skipping $file."
 	fi
