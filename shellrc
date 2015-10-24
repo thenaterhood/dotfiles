@@ -43,7 +43,7 @@ BWHITE='\e[1;37m'
 ROOT_UID=0
 RUNNING_SHELL=`readlink -f /proc/$$/exe`
 
-if [ "`which powerline-daemon`" != 'powerline-daemon not found' ]; then
+if [ `command -v powerline-daemon` ]; then
         PWRLINE=1
 else
         PWRLINE=0
