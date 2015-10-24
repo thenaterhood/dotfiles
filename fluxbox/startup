@@ -16,8 +16,7 @@ xmodmap "~/.Xmodmap"
 # wmnd &
 # wmsmixer -w &
 # idesk &
-xcompmgr & 
-fbsetbg -f .fluxbox/backgrounds/dotfileswall.jpg & # Sets a background using fbsetbg
+xcompmgr &
 tint2 & # Starts the tint2 taskbar
 conky & # Starts conky
 gtk-redshift & # Starts redshift
