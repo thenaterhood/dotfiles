@@ -39,23 +39,12 @@ is_ssh=0
 if [ "$SSH_CONNECTION" != "" ]; then
         is_ssh=1
 fi
+
 #####################################################
 # Displays a greeting on shell start
 #####################################################
-hour=`date +%H`
-
-# Decides which greeting to use, depending on time of day
-if [ $hour -ge 0 -a $hour -lt 12 ]; then
-	greeting="Good morning! You are on `hostname`."
-elif [ $hour -ge 12 -a $hour -lt 19 ]; then
-	greeting="Good afternoon! You are on `hostname`."
-else
-	greeting="Good evening! You are on `hostname`."
-fi
-
-# Displays the greeting
-echo -e "$altred$greeting"
-echo -e "Current time is `date +%T`, today is `date +%A`.\n"
+echo -e "$altred"
+echo -e "Current time on `hostname` is `date +"%A, %T %Z"`.\n"
 
 #####################################################
 # Functions to make life easier
