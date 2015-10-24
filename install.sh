@@ -16,18 +16,18 @@
 
 NORMAL="\033[0m"
 RED="\033[1;31m"
-GREEN="\033[1;32m"
+GREEN="\033[0;32m"
 BLUE="\033[34;1m"
-YELLOW="\033[1;33m"
+YELLOW="\033[0;33m"
 
-ok(){
-	echo -e "$GREEN[INFO] $NORMAL $1";
+inform(){
+	echo -e "$GREEN[INFO]$NORMAL $1";
 }
-notice(){
-	echo -e "$YELLOW[WARN] $NORMAL $1";
+warn(){
+	echo -e "$YELLOW[WARN]$NORMAL $1";
 }
 error(){
-	echo -e "$RED[FAIL] $NORMAL $1";
+	echo -e "$RED[FAIL] $1$NORMAL";
 }
 
 #####################################################
@@ -39,8 +39,9 @@ basepath=`pwd`
 home=$HOME
 root=''
 rootUID=0
-mkdir ~/dotfiles.old 2>/dev/null || error "could not create backup directory"
-mkdir ~/.config 2>/dev/null || error "could not create .config directory"
+
+inform "DO NOT use this script to install user files systemwide."
+inform "You can create system-wide preferences by putting files in /etc"
 
 #####################################################
 # Define a few functions to use later
@@ -53,10 +54,9 @@ rootTasks(){
 	# Leaves permissions intact so the user still has rw access
 	# to the files.
 	if [ ! `pwd` = "/opt/dotfiles" ]; then
-		notice "For security and safety reasons, the dotfiles folder has been moved to /opt/dotfiles since it contains system files."
+		warn "Moving files to /opt/dotfiles since it contains system files."
 
-		mv `pwd` /opt/dotfiles
-		basepath=/opt/dotfiles
+		mv `pwd` /opt/dotfiles && basepath=/opt/dotfiles || error "Something went wrong, leaving it where it is"
 	fi
 
 	read -p "Install system files (not just personal)? y/n: " doRoot
@@ -64,11 +64,21 @@ rootTasks(){
 		isRoot=False
 	fi
 
-	notice "Please enter the full path to the home directory of the user to install personal dotfiles into\n"
-	echo "Note that this script can be run more than once to install dotfiles to other users as well."
-	read -p "User directory: " home
+	read -p "Enter the full path to the home directory of a user: " home
 
 	if [ "$home" = "" ]; then home=$HOME; fi
+}
+
+linkfile(){
+        targetfile=$2
+        file=$1
+
+        if [ -e "$targetfile" ] || [ -h "$targetfile" ]; then
+                warn "$file exists, backing up original"
+                mv $targetfile ~/dotfiles.old/ || error "Failed to back up $targetfile"
+        fi
+
+        ln -sf $basepath/$localfile $targetfile && inform "Installed $file to $targetfile" || error "Could not symlink $file to $targetfile"
 }
 
 #####################################################
@@ -84,8 +94,6 @@ checkRequired(){
 checkRequired sed
 checkRequired awk
 
-notice "This will install ALL the dotfiles into their appropriate locations."
-
 #####################################################
 # Checks if root
 #####################################################
@@ -100,27 +108,26 @@ fi
 #####################################################
 # Iterates through the list of targets in locations
 #####################################################
+mkdir ~/dotfiles.old 2>/dev/null || error "could not create backup directory"
+mkdir $home/.config 2>/dev/null || error "could not create .config directory"
+
 while read p; do
 	# Breaks the location line in the file to its location and basename
-	local=`echo $p | awk '{print $1}'`
-	file=$local
-	target=`echo $p | awk '{print $2}' | sed -e s:'$HOME':$home:g | sed -e s:'$ROOT':$root:g`
+	localfile=`echo $p | awk '{print $1}'`
+        target=`echo $p | awk '{print $2}'`
 
-        # Moves the existing file and links the dotfiles file in its place
-	# depending on user permissions
-	if [ $isRoot = True ] || [ `echo $target | cut -c 2-5` = 'home' ] || [ `echo $target | cut -c 2-6` = 'Users' ] || [ `echo $target | cut -c 2-5` = 'root' ]; then
+        if [ `expr match "$target" '$HOME'` -gt 0 ]; then
+                targetfile=`echo $target | sed -e s:'$HOME':$home:g`
 
-		# Moves the existing config file if it exists
-		if [ -e "$target" ] || [ -h "$target" ]; then
-			notice "$file exists, moving it to ~/dotfiles.old"
-			mv $target $HOME/dotfiles.old/ || error "could not move $file out of the way"
-		fi
+                linkfile $localfile $targetfile
+        fi
 
-		# Installs the new config file by linking it to the dotfiles folder
-		ln -s $basepath/$local $target && ok "Installed $file to $target" || error "could not install $file to $target"
+        if [ `expr match "$target" '$ROOT'` -gt 0 ]; then
+                targetfile=`echo $target | sed -e s:'$ROOT'::g`
 
-	else
-		error "skipping $file."
-	fi
+                if [ $isRoot = True ]; then
+                        linkfile $localfile $targetfile
+                fi
+        fi
 
 done < $basepath/locations
