@@ -74,12 +74,6 @@ rootTasks(){
 #####################################################
 # Dependency checks
 #####################################################
-checkRecommended(){
-	if [ ! `command -v $1` ]; then
-		notice "It is recommended that you install $1."
-	fi
-}
-
 checkRequired(){
 	if [ ! `command -v $1` ]; then
 		error "could not fine $1, which is required for this script."
@@ -89,8 +83,6 @@ checkRequired(){
 
 checkRequired sed
 checkRequired awk
-checkRecommended conky
-checkRecommended tint2
 
 notice "This will install ALL the dotfiles into their appropriate locations."
 
