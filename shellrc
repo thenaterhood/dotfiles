@@ -15,6 +15,10 @@
 export EDITOR=vim
 export PATH=$PATH:/home/nate/bin:/home/nate/bin/shellzilla
 
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM=xterm-256color
+fi
+
 #####################################################
 #   Sets the bash color codes to english variables
 #####################################################
@@ -107,9 +111,19 @@ case `basename $RUNNING_SHELL` in
 	SAVEHIST=5000
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
-	USERPRMT="%{$reset_color%}%{$fg[cyan]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
+
+        if [ $terminfo[colors] -gt 16 ]; then
+        	USERPRMT="%{$reset_color%}%B%F{198}%n%f at %F{154}%m%f in %F{057}%~%f"$'\n'"→ %b"
+        else
+                USERPRMT="%{$reset_color%}%{$fg[cyan]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
+        fi
+
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
+                if [ $terminfo[colors] -gt 16 ]; then
+        		USERPRMT="%{$reset_color%}%B%F{198}%n%f at %F{202}%m%f in %F{057}%~%f"$'\n'"%F{202}→ %f%b"
+                else
+                        USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
+                fi
 	fi
 	;;
 
