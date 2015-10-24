@@ -33,6 +33,9 @@ altred="\033[1;31m"
 BGGREEN="\e[30;48;5;82m"
 BGBLUE="\e[30;48;5;39m"
 BGYELLOW="\e[30;48;5;11m"
+IBGREEN='\e[1;92m'
+IBBLUE='\e[1;94m'
+BWHITE='\e[1;37m'
 
 #####################################################
 # Sets a few prelimary variables for later commands
@@ -86,9 +89,9 @@ case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$CYAN\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
+	USERPRMT="$NORMAL$IBGREEN\u@\h$BWHITE in $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)→ $NORMAL"
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="$NORMAL$BOLD_YELLOW\u@\h $NORMAL$DYELLOW\\w\n$NORMAL→ "
+		USERPRMT="$NORMAL$BOLD_YELLOW\u@\h$BWHITE in $IBBLUE\\w\n$NORMAL$BOLD_YELLOW(sh)→ $NORMAL"
 	fi
 	;;
 
@@ -113,16 +116,16 @@ case `basename $RUNNING_SHELL` in
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 
         if [ $terminfo[colors] -gt 16 ]; then
-        	USERPRMT="%{$reset_color%}%B%F{198}%n%f at %F{154}%m%f in %F{057}%~%f"$'\n'"→ %b"
+        	USERPRMT="%{$reset_color%}%B%F{154}%n@%m%f in %F{057}%~%f"$'\n'"(zsh)→ %b"
         else
-                USERPRMT="%{$reset_color%}%{$fg[cyan]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
+                USERPRMT="%{$reset_color%}%{$fg_bold[green]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B(zs)→ %b"
         fi
 
 	if [ $SSH_SESS -eq 1 ]; then
                 if [ $terminfo[colors] -gt 16 ]; then
-        		USERPRMT="%{$reset_color%}%B%F{198}%n%f at %F{202}%m%f in %F{057}%~%f"$'\n'"%F{202}→ %f%b"
+        		USERPRMT="%{$reset_color%}%B%F{202}%n@%m%f in %F{057}%~%f"$'\n'"%F{202}(zsh)→ %f%b"
                 else
-                        USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"%{$reset_color%}→ "
+                        USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"(zsh)→ %{$reset_color}"
                 fi
 	fi
 	;;
@@ -140,6 +143,7 @@ fi
 # General aliases to shorten commands/make other OS
 # commands available (coming fron windows)
 #####################################################
+alias ls='ls --color=auto'
 alias sl='ls -lr'
 alias ll='ls -lh'
 alias la='ls -a'
