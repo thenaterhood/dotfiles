@@ -63,7 +63,7 @@ echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
 # Make an empty git repo with readme, license and gitignore
 # and create a single commit
-mkGit(){
+mkgit(){
 	# Sets up a git repository skeleton
 	# with an initial README, LICENSE, and
 	# .gitignore and performs an initial
@@ -163,7 +163,6 @@ alias py2='python2'
 
 alias gitstat='git status'
 alias gitcom='git commit'
-alias mkgit='mkGit'
 alias gitpul='git pull'
 alias gitpush='git push'
 alias gush='git push'
