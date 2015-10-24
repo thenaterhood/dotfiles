@@ -39,10 +39,8 @@ BGYELLOW="\e[30;48;5;11m"
 #####################################################
 # Sets a few prelimary variables for later commands #
 #####################################################
-windows_username=$USER
 shellzilla=~/bin/shellzilla
 ROOT_UID=0
-windows_mntpt=/mnt/windows_seven
 if [ -e /etc/issue ]; then
 	distro=`cat /etc/issue | head -1 | awk '{print $1}'`
 else
@@ -225,31 +223,13 @@ alias volmute='bash $shellzilla/volumeControl.sh mute'
 #####################################################
 # Distro/software specific commands				 #
 #####################################################
-alias l='slimlock'
-
-alias virtualbox='gksudo VirtualBox &'
-alias sign='pgp --detach-sign' 
+alias sign='pgp --detach-sign'
 alias verify='pgp --verify'
 
 #####################################################
 # Cross-platform alias setup (linux/mac/cygwin)	 #
 #####################################################
-case "$OSTYPE" in 
-	cygwin)
-		# Generic useful aliases
-		alias ls='ls --color=auto'
-		alias win='cd /cygdrive/C'
-		alias winh='cd /cygdrive/C/Users/$windows_username'
-		alias uac='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
-		alias sudo='/cygdrive/C/Users/$windows_username/cmd_alias/uac.bat'
-		alias open='cmd /c start'
-		alias ifconfig='ipconfig'
-		
-		# Service management
-		alias stop='net stop'
-		alias start='net start'
-		alias restart='net restart'
-		;;
+case "$OSTYPE" in
 	linux*)
 		alias ls='ls --color=auto'
 		alias win='cd $windows_mntpt'
@@ -262,7 +242,6 @@ case "$OSTYPE" in
 		alias uac='sudo'
 		alias ipconfig='ifconfig'
 		#mac already has an open command
-		
 esac
 
 ######################################################
@@ -276,18 +255,16 @@ case "$distro" in
 		alias pacR='sudo pacman -Rs'
 		alias pacsearch='sudo pacman -Ss'
 		alias Syua='sudo yaourt -Syua'
-		
 		# Service management
 		alias sysctl='sudo systemctl'
 		;;
 	Debian)
-		# Package management aliases		
+		# Package management aliases
 		# Pacman stuff, since I'm used to pacman
 		alias Syu='sudo apt-get update && sudo apt-get upgrade'
 		alias pacS='sudo apt-get install'
 		alias pacR='sudo apt-get purge'
 		alias pacsearch='sudo apt-cache search'
-		
 		;;
 esac
 
