@@ -8,12 +8,9 @@
 #   aliases.  Some cross-platform support anywhere bash can be run.  Setup
 #   of a few platform-specific aliases depending on system (cygwin/darwin/linux)
 #
-# TODO: 
-#   add conditions for different distros, so this is less arch-centric
-#   
 #####################################################
-# Check if running interactively (we don't want to  #
-# do these things if we are not)                    #
+# Check if running interactively (we don't want to
+# do these things if we are not)
 #####################################################
 [[ $- != *i* ]] && return
 
@@ -23,7 +20,7 @@
 export EDITOR=vim
 
 #####################################################
-#   Sets the bash color codes to english variables  #
+#   Sets the bash color codes to english variables
 #####################################################
 NORMAL="\[\033[0m\]"
 RED="\[\033[31;1m\]"
@@ -37,7 +34,7 @@ BGGREEN="\e[30;48;5;82m"
 BGBLUE="\e[30;48;5;39m"
 BGYELLOW="\e[30;48;5;11m"
 #####################################################
-# Sets a few prelimary variables for later commands #
+# Sets a few prelimary variables for later commands
 #####################################################
 shellzilla=~/bin/shellzilla
 ROOT_UID=0
@@ -52,7 +49,7 @@ if [ "$SSH_CONNECTION" != "" ]; then
         is_ssh=1
 fi
 #####################################################
-# Displays a greeting on shell start				#
+# Displays a greeting on shell start
 #####################################################
 hour=`date +%H`
 
@@ -71,7 +68,7 @@ echo -e "$altred$greeting"
 echo -e "Current time is `date +%T`, today is `date +%A`.\n"
 
 #####################################################
-# Functions to make life easier                     #
+# Functions to make life easier
 #####################################################
 
 # Make an empty git repo with readme, license and gitignore
@@ -101,8 +98,8 @@ ufsshfs(){
 }
 
 #####################################################
-# Changes the prompt text and colors				#
-# See bash man page for codes.					    #
+# Changes the prompt text and colors
+# See bash man page for codes
 #####################################################
 
 # Configure the prompt depending on bash or zsh
@@ -153,8 +150,8 @@ else
 fi
 
 #####################################################
-# General aliases to shorten commands/make other OS #
-# commands available (coming fron windows)		  #
+# General aliases to shorten commands/make other OS
+# commands available (coming fron windows)
 #####################################################
 alias sl='ls -lr'
 alias ll='ls -lh'
@@ -182,7 +179,6 @@ alias usshfs='fusermount -u'
 
 alias py='python'
 alias py2='python2'
-alias mkpy='python3 ~/bin/static_code_generators/createPython.py python'
 
 alias gitstat='git status'
 alias gitcom='git commit'
@@ -196,20 +192,20 @@ alias gdiff='git diff'
 alias getch='git fetch'
 alias gatch='git fetch --all'
 #####################################################
-# Typo-related aliases							  #
+# Typo-related aliases
 #####################################################
 alias pgp='gpg'
 alias fidget='figlet'
 alias csv='cvs'
 
 #####################################################
-# Application-related shortcuts for accidentally	#
-# using vim/whatever commands in bash			   #
+# Application-related shortcuts for accidentally
+# using vim/whatever commands in bash
 #####################################################
 alias :q='exit'
 
 #####################################################
-# Aliases to call scripts (found in shellzilla repo)#
+# Aliases to call scripts (found in shellzilla repo)
 #####################################################
 alias displays='bash $shellzilla/display_configurator.sh'
 alias touchpad='bash $shellzilla/touchpad_switch.sh'
@@ -221,13 +217,13 @@ alias voldwn='bash $shellzilla/volumeControl.sh down'
 alias volmute='bash $shellzilla/volumeControl.sh mute'
 
 #####################################################
-# Distro/software specific commands				 #
+# Distro/software specific commands
 #####################################################
 alias sign='pgp --detach-sign'
 alias verify='pgp --verify'
 
 #####################################################
-# Cross-platform alias setup (linux/mac/cygwin)	 #
+# Cross-platform alias setup (linux/mac/cygwin)
 #####################################################
 case "$OSTYPE" in
 	linux*)
@@ -245,7 +241,7 @@ case "$OSTYPE" in
 esac
 
 ######################################################
-# Cross-distribution alias setup (Debian/Arch)	   #
+# Cross-distribution alias setup (Debian/Arch)
 ######################################################
 case "$distro" in
 	Arch)
