@@ -33,7 +33,6 @@ BGYELLOW="\e[30;48;5;11m"
 #####################################################
 # Sets a few prelimary variables for later commands
 #####################################################
-SHELLZILLA=~/bin/shellzilla
 ROOT_UID=0
 RUNNING_SHELL=`readlink -f /proc/$$/exe`
 
