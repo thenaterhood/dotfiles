@@ -13,7 +13,7 @@
 # Configure the environment
 #####################################################
 export EDITOR=vim
-export PATH=$PATH:/home/nate/bin:/home/nate/bin/shellzilla
+export PATH=$PATH:/home/nate/bin:/home/nate/bin/shellzilla:/home/nate/.gem/ruby/2.3.0/bin
 
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
     export TERM=xterm-256color
@@ -65,8 +65,10 @@ echo -e "Current time on `hostname` is `date +"%A, %T %Z"`.\n"
 # and create a single commit
 mkgit(){
 	git init
-	basename `pwd` > README.md
-	echo -e "============" >> README.md
+        if [ ! -f README.md ]; then
+            basename `pwd` > README.md
+            echo -e "============" >> README.md
+        fi
 	echo -e '__pycache__' >> .gitignore
 	echo -e 'bin' >> .gitignore
 	echo -e 'LICENSE' >> LICENSE
@@ -211,3 +213,5 @@ alias pacR='sudo pacman -Rs'
 alias pacs='pacman -Ss'
 alias Syua='yaourt -Syua'
 
+export GOPATH=/home/nate/projects/gocode
+export PATH=$PATH:$GOPATH/bin
