@@ -13,7 +13,7 @@
 # Configure the environment
 #####################################################
 export EDITOR=vim
-export PATH=$PATH:/home/nate/bin:/home/nate/bin/shellzilla:/home/nate/.gem/ruby/2.3.0/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin/shellzilla:$HOME/.gem/ruby/2.3.0/bin
 
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
     export TERM=xterm-256color
@@ -213,5 +213,5 @@ alias pacR='sudo pacman -Rs'
 alias pacs='pacman -Ss'
 alias Syua='yaourt -Syua'
 
-export GOPATH=/home/nate/projects/gocode
+export GOPATH=$HOME/projects/gocode
 export PATH=$PATH:$GOPATH/bin
