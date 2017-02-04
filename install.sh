@@ -1,133 +1,138 @@
 #!/bin/bash
 #
-# Author: Nate Levesque <public@thenaterhood.com>
-# Language: Shell
-# Filename: install.sh
-#
-# Description:
-#   Creates symlinks to the dotfiles in their appropriate
-#   locations relative to a home directory or the partition root.
-#   The script will create symlinks for other files
-#   as well if their locations are listed in the locations file.
-#   The idea was to give the script as much flexibility as possible
-#   so that it can have uses beyond installing dotfiles.
-#
-#   Licensed under the BSD license. See LICENSE for full license
+# Dotfiles installer script v2.
+BASEPATH=`pwd`
+BACKUPDIR=$HOME/dotfiles.old
+UNSAFE=false
+COPY=false
+MOVE=
+DEST=$HOME
+DOSYSTEM=false
 
+# color codes for echo
 NORMAL="\033[0m"
 RED="\033[1;31m"
 GREEN="\033[0;32m"
 BLUE="\033[34;1m"
 YELLOW="\033[0;33m"
 
-inform(){
-	echo -e "$GREEN[INFO]$NORMAL $1";
-}
-warn(){
-	echo -e "$YELLOW[WARN]$NORMAL $1";
-}
-error(){
-	echo -e "$RED[FAIL] $1$NORMAL";
+function info()
+{
+    echo -e "$GREEN[INFO]$NORMAL $1";
 }
 
-#####################################################
-# Sets a few initial variables and makes folders
-# that the script expects to exist
-#####################################################
-user=$USER
-basepath=`pwd`
-home=$HOME
-root=''
-rootUID=0
-
-inform "DO NOT use this script to install user files systemwide."
-inform "You can create system-wide preferences by putting files in /etc"
-
-#####################################################
-# Define a few functions to use later
-#####################################################
-rootTasks(){
-	# Performs a few additional tasks if the script has been run
-	# as root.  Moves the dotfiles folder to /opt/dotfiles so that
-	# the (soon to be) system files don't get accidentally overwritten
-	# and asks what user directory to link the personal dotfiles to.
-	# Leaves permissions intact so the user still has rw access
-	# to the files.
-	if [ ! `pwd` = "/opt/dotfiles" ]; then
-		warn "Moving files to /opt/dotfiles since it contains system files."
-
-		mv `pwd` /opt/dotfiles && basepath=/opt/dotfiles || error "Something went wrong, leaving it where it is"
-	fi
-
-	read -p "Install system files (not just personal)? y/n: " doRoot
-	if [ $doRoot = "n" ]; then
-		isRoot=False
-	fi
-
-	read -p "Enter the full path to the home directory of a user: " home
-
-	if [ "$home" = "" ]; then home=$HOME; fi
+function warning()
+{
+    echo -e "$YELLOW[WARN]$NORMAL $1";
 }
 
-linkfile(){
-        targetfile=$2
-        file=$1
-
-        if [ -e "$targetfile" ] || [ -h "$targetfile" ]; then
-                warn "$file exists, backing up original"
-                mv $targetfile ~/dotfiles.old/ || error "Failed to back up $targetfile"
-        fi
-
-        ln -sf $basepath/$localfile $targetfile && inform "Installed $file to $targetfile" || error "Could not symlink $file to $targetfile"
+function error()
+{
+    echo -e "$RED[FAIL] $1$NORMAL";
+    exit 1
 }
 
-#####################################################
-# Dependency checks
-#####################################################
-checkRequired(){
-	if [ ! `command -v $1` ]; then
-		error "could not fine $1, which is required for this script."
-		exit 1
-	fi
+function checkFor() # $command - check the command is available
+{
+    if [ ! `command -v $1` ]; then
+        error "$1 is required for this script."
+    fi
 }
 
-checkRequired sed
-checkRequired awk
+function installDotfile() # $destination $target
+{
+    target=$2
+    file=$1
+    backUpFile "$target"
 
-#####################################################
-# Checks if root
-#####################################################
-if [ $rootUID != $UID ]; then
-	read -p "Waiting for you to hit enter, as there were important messages"
-	isRoot=False
-else
-	isRoot=True
-	rootTasks
-fi
+    if [ $COPY = true ]; then
+        cp -r $file $target && info "Copied $file to $target" || error "Failed to copy $file to $target"
+    else
+        ln -sf $BASEPATH/$file $target && info "Installed $file to $target" || error "Failed to symlink $target to $file"
+    fi
+}
 
-#####################################################
-# Iterates through the list of targets in locations
-#####################################################
-mkdir ~/dotfiles.old 2>/dev/null || error "could not create backup directory"
-mkdir $home/.config 2>/dev/null || error "could not create .config directory"
+function backUpFile() # $original
+{
+    original=$1
+
+    # Backs up a file if the UNSAFE flag is not set
+    if [ $UNSAFE = false ] && [ -e "$original" ]; then
+        info "$original exists - backing it up"
+        mv "$original" "$BACKUPDIR" || error "Failed to back up $original."
+    elif [ $UNSAFE = true ] && [ -e "$original" ]; then
+        warning "UNSAFE is set - skipping backup of $original"
+    fi
+}
+
+function installSystemfile() # $original $target
+{
+    target=$2
+    original=$1
+
+    backUpFile "$target"
+    sudo cp "$original" "$target"
+}
+
+function checkForRoot()
+{
+    return [ $UID -eq 0 ]
+}
+
+function usage()
+{
+    cat <<HERETO
+USAGE: install.sh [parameters]
+
+    -s|--system          Install system dotfiles too
+    -u|--unsafe          Don't back up files if they already
+                         exist
+    -c|--copy            For non-system files, copy the file
+                         instead of creating a symlink
+    -d|--dest DIRECTORY  Alternate destination (home) to place
+                         symlinks. Useful with -c for setting
+                         up another user quickly. Defaults to
+                         $HOME.
+HERETO
+}
+
+while [[ $# != 0 ]]; do
+    case $1 in
+        -s|--system)
+            DOSYSTEM=true
+            ;;
+        -u|--unsafe)
+            UNSAFE=true
+            ;;
+        -c|--copy)
+            COPY=true
+            ;;
+        -d|--dest)
+            DEST=$2
+            shift
+            ;;
+        *)
+            usage
+            exit 0
+            ;;
+    esac
+    shift
+done
+
+mkdir -p $BACKUPDIR || warning "Could not create $BACKUPDIR"
+mkdir -p $DEST/.config || error "Could not create $DEST/.config"
 
 while read p; do
-	# Breaks the location line in the file to its location and basename
-	localfile=`echo $p | awk '{print $1}'`
-        target=`echo $p | awk '{print $2}'`
+    original=$(echo $p | awk '{print $1}')
+    target=$(echo $p | awk '{print $2}')
 
-        if [ `expr match "$target" '$HOME'` -gt 0 ]; then
-                targetfile=`echo $target | sed -e s:'$HOME':$home:g`
+    if [ $(expr match "$target" '$HOME') -gt 0 ]; then
+        target=$(echo $target | sed -e s:'$HOME':$DEST:g)
+        installDotfile $original $target
+    fi
 
-                linkfile $localfile $targetfile
-        fi
+    if [ $(expr match "$target" '$ROOT') -gt 0 ]; then
+        [ $DOSYSTEM = true ] && installSystemfile $original $target
+    fi
 
-        if [ `expr match "$target" '$ROOT'` -gt 0 ]; then
-                targetfile=`echo $target | sed -e s:'$ROOT'::g`
-
-                if [ $isRoot = True ]; then
-                        linkfile $localfile $targetfile
-                fi
-        fi
-
-done < $basepath/locations
+done < $BASEPATH/locations
