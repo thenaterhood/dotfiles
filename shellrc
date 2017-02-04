@@ -175,6 +175,8 @@ alias gdiff='git diff'
 alias getch='git fetch'
 alias gatch='git fetch --all'
 
+alias myip="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+alias mywan="curl icanhazip.com"
 #####################################################
 # Typo-related aliases
 #####################################################
