@@ -1,5 +1,6 @@
 shellrc	$HOME/.bashrc
 shellrc	$HOME/.zshrc
+gitconfig $HOME/.gitconfig
 idlerc	$HOME/.idlerc
 conkyrc	$HOME/.conkyrc
 tint2	$HOME/.config/tint2
