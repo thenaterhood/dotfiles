@@ -116,6 +116,8 @@ case `basename $RUNNING_SHELL` in
 	SAVEHIST=5000
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
+	Prefacing a command with a space doesn't put it in history
+	setopt histignorespace
 
         if [ $terminfo[colors] -gt 16 ]; then
         	USERPRMT="%{$reset_color%}%B%F{154}%n@%m%f in %F{057}%~%f"$'\n'"→ %b"
