@@ -97,7 +97,7 @@ case `basename $RUNNING_SHELL` in
 	fi
 	;;
 
-	"zsh" | "zsh4" )
+	"zsh" | "zsh4" | "zsh5")
 	# Make the special keys (home/del/end) work
 	bindkey -v
 	eval "$(sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc)" &>/dev/null
