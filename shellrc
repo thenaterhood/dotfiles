@@ -36,6 +36,7 @@ BGYELLOW="\e[30;48;5;11m"
 IBGREEN='\e[1;92m'
 IBBLUE='\e[1;94m'
 BWHITE='\e[1;37m'
+BGREY='\e[1;30;40m'
 
 #####################################################
 # Sets a few prelimary variables for later commands
@@ -49,7 +50,10 @@ else
         PWRLINE=0
 fi
 
-if [ "$SSH_CONNECTION" != "" ]; then SSH_SESS=1; else SSH_SESS=0; fi
+# Determine if we just opened a shell over SSH. Note that this has
+# some interesting behaviour if you're using screen, tmux, or something
+# similar.
+if [ ! -z "$SSH_CLIENT" ] || [ ! -z "$SSH_TTY" ]; then SSH_SESS=1; else SSH_SESS=0; fi
 
 #####################################################
 # Displays a greeting on shell start
@@ -91,9 +95,9 @@ case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$IBGREEN\u@\h$BWHITE in $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)→ $NORMAL"
+	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE:$NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)→ $NORMAL"
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="$NORMAL$BOLD_YELLOW\u@\h$BWHITE in $IBBLUE\\w\n$NORMAL$BOLD_YELLOW(sh)→ $NORMAL"
+		USERPRMT="$BWHITE(SSH) $USERPRMT"
 	fi
 	;;
 
@@ -120,16 +124,20 @@ case `basename $RUNNING_SHELL` in
 	setopt histignorespace
 
         if [ $terminfo[colors] -gt 16 ]; then
-        	USERPRMT="%{$reset_color%}%B%F{154}%n@%m%f in %F{057}%~%f"$'\n'"→ %b"
+                USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B→ %b"
         else
-                USERPRMT="%{$reset_color%}%{$fg_bold[green]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B→ %b"
+                # If you want to change the prompt if the terminal has less than
+                # 16 colors, do it here.
+                # An empty if is a syntax error in some shells
+                echo "FOO" > /dev/null
         fi
 
 	if [ $SSH_SESS -eq 1 ]; then
                 if [ $terminfo[colors] -gt 16 ]; then
-        		USERPRMT="%{$reset_color%}%B%F{202}%n@%m%f in %F{057}%~%f"$'\n'"%F{202}→ %f%b"
+        		USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
                 else
-                        USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"→ %{$reset_color%}"
+                        # An empty if is a syntax error in some shells
+                        echo "FOO" > /dev/null
                 fi
 	fi
 	;;
