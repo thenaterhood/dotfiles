@@ -1,6 +1,7 @@
 "" Nate Levesque
 ""
 set laststatus=1
+colorscheme desert
 
 "" Wrap the cursor at the end of lines
 set whichwrap+=<,>,h,l,[,]
@@ -93,6 +94,9 @@ if !isdirectory(expand('$HOME/.cache/vim/swap', "p"))
 	call mkdir(expand('$HOME/.cache/vim/swap'), "p")
 endif
 
+"" Nice whitespace characters in :set list
+set listchars=eol:¬,tab:\|\ ,trail:~,extends:>,precedes:<,space:·
+set list
 
 "" Configure the vim file locations for the above files
 if isdirectory(expand('$HOME/.cache/vim'))
