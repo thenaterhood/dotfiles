@@ -129,7 +129,7 @@ case `basename $RUNNING_SHELL` in
                 if [ $terminfo[colors] -gt 16 ]; then
         		USERPRMT="%{$reset_color%}%B%F{202}%n@%m%f in %F{057}%~%f"$'\n'"%F{202}→ %f%b"
                 else
-                        USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"→ %{$reset_color}"
+                        USERPRMT="%{$fg_bold[yellow]%}%n@%m:%{$reset_color%}%{$fg[yellow]%} %~ zsh"$'\n'"→ %{$reset_color%}"
                 fi
 	fi
 	;;
