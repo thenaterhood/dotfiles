@@ -123,9 +123,8 @@ case `basename $RUNNING_SHELL` in
 	# Prefacing a command with a space doesnt put it in history
 	setopt histignorespace
 
-        if [ $terminfo[colors] -gt 16 ]; then
-                USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B→ %b"
-        else
+        USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B→ %b"
+        if [ $terminfo[colors] -lt 16 ]; then
                 # If you want to change the prompt if the terminal has less than
                 # 16 colors, do it here.
                 # An empty if is a syntax error in some shells
@@ -133,9 +132,8 @@ case `basename $RUNNING_SHELL` in
         fi
 
 	if [ $SSH_SESS -eq 1 ]; then
-                if [ $terminfo[colors] -gt 16 ]; then
-        		USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
-                else
+                USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
+                if [ $terminfo[colors] -lt 16 ]; then
                         # An empty if is a syntax error in some shells
                         echo "FOO" > /dev/null
                 fi
