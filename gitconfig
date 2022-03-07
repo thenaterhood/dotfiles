@@ -1,7 +1,7 @@
 [alias]
     fa = fetch --all
     last = log -1 HEAD
-    ammend = commit --amend
+    amend = commit --amend
     uncommit = reset HEAD~1
     hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
     co = checkout
