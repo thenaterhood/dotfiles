@@ -95,13 +95,13 @@ case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE:$NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)→ $NORMAL"
+	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE: $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)$ $NORMAL"
 	if [ $SSH_SESS -eq 1 ]; then
 		USERPRMT="$BWHITE(SSH) $USERPRMT"
 	fi
 	;;
 
-	"zsh" | "zsh4" | "zsh5")
+	"zsh" | "zsh4" | "zsh5" | "/usr/bin/zsh")
 	# Make the special keys (home/del/end) work
 	bindkey -v
 	eval "$(sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc)" &>/dev/null
@@ -123,11 +123,12 @@ case `basename $RUNNING_SHELL` in
 	# Prefacing a command with a space doesnt put it in history
 	setopt histignorespace
 
-        USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B→ %b"
+        USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B$ %b"
         if [ $terminfo[colors] -lt 16 ]; then
                 # If you want to change the prompt if the terminal has less than
                 # 16 colors, do it here.
                 # An empty if is a syntax error in some shells
+                USERPRMT="%n@%m: %~"$'\n'"%B$ %b"
                 echo "FOO" > /dev/null
         fi
 
@@ -135,6 +136,7 @@ case `basename $RUNNING_SHELL` in
                 USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
                 if [ $terminfo[colors] -lt 16 ]; then
                         # An empty if is a syntax error in some shells
+                        USERPRMT="(SSH) $USRPRMT"
                         echo "FOO" > /dev/null
                 fi
 	fi
