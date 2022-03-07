@@ -95,7 +95,7 @@ case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE: $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)$ $NORMAL"
+	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE: $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)\$ $NORMAL"
 	if [ $SSH_SESS -eq 1 ]; then
 		USERPRMT="$BWHITE(SSH) $USERPRMT"
 	fi
@@ -123,7 +123,7 @@ case `basename $RUNNING_SHELL` in
 	# Prefacing a command with a space doesnt put it in history
 	setopt histignorespace
 
-        USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B$ %b"
+        USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B\$ %b"
         if [ $terminfo[colors] -lt 16 ]; then
                 # If you want to change the prompt if the terminal has less than
                 # 16 colors, do it here.
