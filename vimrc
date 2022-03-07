@@ -95,7 +95,7 @@ if !isdirectory(expand('$HOME/.cache/vim/swap', "p"))
 endif
 
 "" Nice whitespace characters in :set list
-set listchars=eol:¬,tab:\|\ ,trail:~,extends:>,precedes:<,space:·
+set listchars=eol:$,tab:\|\ ,trail:~,extends:>,precedes:<,space:_
 set list
 
 "" Configure the vim file locations for the above files
