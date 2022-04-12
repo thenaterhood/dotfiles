@@ -2,7 +2,7 @@
 #
 # Dotfiles installer script v2.
 BASEPATH=`pwd`
-BACKUPDIR=$HOME/dotfiles.old
+BACKUPDIR=$HOME/.dotfiles.old
 UNSAFE=false
 COPY=false
 MOVE=
@@ -83,7 +83,6 @@ function usage()
 {
     cat <<HERETO
 USAGE: install.sh [parameters]
-
     -s|--system          Install system dotfiles too
     -u|--unsafe          Don't back up files if they already
                          exist
@@ -126,12 +125,12 @@ while read p; do
     original=$(echo $p | awk '{print $1}')
     target=$(echo $p | awk '{print $2}')
 
-    if [ $(expr match "$target" '$HOME') -gt 0 ]; then
+    if [ $(expr "$target" : '$HOME') -gt 0 ]; then
         target=$(echo $target | sed -e s:'$HOME':$DEST:g)
         installDotfile $original $target
     fi
 
-    if [ $(expr match "$target" '$ROOT') -gt 0 ]; then
+    if [ $(expr "$target" : '$ROOT') -gt 0 ]; then
         [ $DOSYSTEM = true ] && installSystemfile $original $target
     fi
 
