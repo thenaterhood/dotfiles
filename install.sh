@@ -2,7 +2,7 @@
 #
 # Dotfiles installer script v2.
 BASEPATH=`pwd`
-BACKUPDIR=$HOME/.dotfiles.old
+BACKUPDIR=$HOME/dotfiles.old
 UNSAFE=false
 COPY=false
 MOVE=
