@@ -83,6 +83,7 @@ function usage()
 {
     cat <<HERETO
 USAGE: install.sh [parameters]
+
     -s|--system          Install system dotfiles too
     -u|--unsafe          Don't back up files if they already
                          exist
