@@ -59,7 +59,7 @@ if [ ! -z "$SSH_CLIENT" ] || [ ! -z "$SSH_TTY" ]; then SSH_SESS=1; else SSH_SESS
 # Displays a greeting on shell start
 #####################################################
 echo -e "$altred"
-echo -e "Current time on `hostname` is `date +"%A, %T %Z"`.\n"
+echo -e "Current time on $(cat /etc/hostname) is `date +"%A, %T %Z"`.\n"
 
 #####################################################
 # Functions to make life easier
