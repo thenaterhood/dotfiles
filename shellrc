@@ -93,6 +93,10 @@ ufsshfs(){
 #####################################################
 case `basename $RUNNING_SHELL` in
 	"bash"|"-bash")
+	# Intermingle with zsh
+	HISTFILE=~/.zsh_histfile
+	HISTFILESIZE=10000
+	HISTCONTROL=ignoreboth:erasedups
 
 	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
 	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE: $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)\$ $NORMAL"
@@ -115,30 +119,29 @@ case `basename $RUNNING_SHELL` in
 	compinit
 	bindkey -v
 	bindkey "^R" history-incremental-search-backward
-	HISTSIZE=5000
+	HISTSIZE=12000
 	setopt APPEND_HISTORY
-	SAVEHIST=5000
+	setopt HIST_SAVE_NO_DUPS
+	SAVEHIST=10000
 	HISTFILE=~/.zsh_histfile
 	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
 	# Prefacing a command with a space doesnt put it in history
 	setopt histignorespace
 
-        USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B\$ %b"
-        if [ $terminfo[colors] -lt 16 ]; then
-                # If you want to change the prompt if the terminal has less than
-                # 16 colors, do it here.
-                # An empty if is a syntax error in some shells
-                USERPRMT="%n@%m: %~"$'\n'"%B$ %b"
-                echo "FOO" > /dev/null
-        fi
+	USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B\$ %b"
+	if [ $terminfo[colors] -lt 16 ]; then
+		# If you want to change the prompt if the terminal has less than
+		# 16 colors, do it here.
+		# An empty if is a syntax error in some shells
+		USERPRMT="%n@%m: %~"$'\n'"%B$ %b"
+	fi
 
 	if [ $SSH_SESS -eq 1 ]; then
-                USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
-                if [ $terminfo[colors] -lt 16 ]; then
-                        # An empty if is a syntax error in some shells
-                        USERPRMT="(SSH) $USRPRMT"
-                        echo "FOO" > /dev/null
-                fi
+		USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
+		if [ $terminfo[colors] -lt 16 ]; then
+			# An empty if is a syntax error in some shells
+			USERPRMT="(SSH) $USRPRMT"
+		fi
 	fi
 	;;
 
