@@ -9,6 +9,11 @@
 #####################################################
 [[ $- != *i* ]] && return
 
+precmd () {
+	vcs_info
+} # zsh - runs before showing prompt
+
+
 #####################################################
 # Configure the environment
 #####################################################
@@ -16,7 +21,7 @@ export EDITOR=vim
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin/shellzilla:$HOME/.local/share/gem/ruby/3.3.0/bin
 
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-    export TERM=xterm-256color
+	export TERM=xterm-256color
 fi
 
 #####################################################
@@ -37,29 +42,30 @@ IBGREEN='\e[1;92m'
 IBBLUE='\e[1;94m'
 BWHITE='\e[1;37m'
 BGREY='\e[1;30;40m'
+PURPLE='\e[0;35m'
 
 #####################################################
 # Sets a few prelimary variables for later commands
 #####################################################
 ROOT_UID=0
-RUNNING_SHELL=`readlink -f /proc/$$/exe`
+RUNNING_SHELL=$(readlink -f /proc/$$/exe)
 
-if [ `command -v powerline-daemon` ]; then
-        PWRLINE=1
+if [ $(command -v powerline-daemon) ]; then
+	PWRLINE=1
 else
-        PWRLINE=0
+	PWRLINE=0
 fi
 
 # Determine if we just opened a shell over SSH. Note that this has
 # some interesting behaviour if you're using screen, tmux, or something
 # similar.
-if [ ! -z "$SSH_CLIENT" ] || [ ! -z "$SSH_TTY" ]; then SSH_SESS=1; else SSH_SESS=0; fi
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then SSH_SESS=1; else SSH_SESS=0; fi
 
 #####################################################
 # Displays a greeting on shell start
 #####################################################
 echo -e "$altred"
-echo -e "Current time on $(cat /etc/hostname) is `date +"%A, %T %Z"`.\n"
+echo -e "Welcome to $(cat /etc/hostname), system time is $(date +"%A, %T %Z").\n"
 
 #####################################################
 # Functions to make life easier
@@ -69,10 +75,9 @@ echo -e "Current time on $(cat /etc/hostname) is `date +"%A, %T %Z"`.\n"
 # and create a single commit
 mkgit(){
 	git init
-        if [ ! -f README.md ]; then
-            basename `pwd` > README.md
-            echo -e "============" >> README.md
-        fi
+	if [ ! -f README.md ]; then
+		basename "# $(pwd)" > README.md
+	fi
 	echo -e '__pycache__' >> .gitignore
 	echo -e 'bin' >> .gitignore
 	echo -e 'LICENSE' >> LICENSE
@@ -84,24 +89,25 @@ mkgit(){
 # for unfortunate situations where SSHFS has crashed
 ufsshfs(){
 	killall -KILL sshfs
-	fusermount -u $1
+	fusermount -u "$1"
 }
 
 #####################################################
 # Changes the prompt text and colors
 # See bash man page for codes
 #####################################################
-case `basename $RUNNING_SHELL` in
+HISTFILE=~/.zsh_histfile
+
+case $(basename $RUNNING_SHELL) in
 	"bash"|"-bash")
 	# Intermingle with zsh
-	HISTFILE=~/.zsh_histfile
 	HISTFILESIZE=10000
 	HISTCONTROL=ignoreboth:erasedups
 
-	ROOTPRMT="$RED\h $RED\\w\\$ $NORMAL"
-	USERPRMT="$NORMAL$BGREY\u@\h$BWHITE: $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE(sh)\$ $NORMAL"
+	ROOTPRMT="$RED[\h] $RED\\w [sh]\\$ $NORMAL"
+	USERPRMT="$PURPLE[$NORMAL$BGREY\u@\h$PURPLE] $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE[sh]\$ $NORMAL"
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="$BWHITE(SSH) $USERPRMT"
+		USERPRMT="$PURPLE[$BWHITE"SSH"$PURPLE]$USERPRMT"
 	fi
 	;;
 
@@ -112,6 +118,7 @@ case `basename $RUNNING_SHELL` in
 
 	# Set up the shell
 	autoload -U colors && colors
+	autoload -Uz vcs_info # enable vcs_info
 	zstyle ':completion:*' completer _complete _ignored _approximate
 	zstyle :compinstall filename $HOME/.zshrc
 
@@ -122,25 +129,28 @@ case `basename $RUNNING_SHELL` in
 	HISTSIZE=12000
 	setopt APPEND_HISTORY
 	setopt HIST_SAVE_NO_DUPS
+	setopt PROMPT_SUBST
 	SAVEHIST=10000
-	HISTFILE=~/.zsh_histfile
-	ROOTPRMT="%{$fg[red]%}%m %~ #%{$reset_color%}"
+	ROOTPRMT="%{$fg_bold[red]%}[%m] %~ #%{$reset_color%} "
 	# Prefacing a command with a space doesnt put it in history
 	setopt histignorespace
+	zstyle ':vcs_info:*' formats ' %F{5}[%F{4}%s:%F{white}%b%f%F{5}]' # git(main)
 
-	USERPRMT="%{$reset_color%}%{$fg_bold[grey]%}%n@%m:%{$reset_color%}%{$fg_bold[blue]%} %~"$'\n'"%{$reset_color%}%B\$ %b"
+	USERPRMT='%F{5}[%{$fg_bold[grey]%}%n@%m%F{5}] %F{4}%3~${vcs_info_msg_0_} %f'$'\n''%B\$ %b'
+	RPROMPT='%{$fg_bold[red]%}%(?..%B(%?%)%b)%{$reset_color%}'
+
 	if [ $terminfo[colors] -lt 16 ]; then
 		# If you want to change the prompt if the terminal has less than
 		# 16 colors, do it here.
 		# An empty if is a syntax error in some shells
-		USERPRMT="%n@%m: %~"$'\n'"%B$ %b"
+		USERPRMT='[%n@%m] %~$'\n'%B ${vcs_info_msg_0_}%f'$'\n''%B\$ %b'
 	fi
 
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="%{$fg_bold[white]%}(SSH) $USERPRMT"
+		USERPRMT="%F{5}[%{$fg_bold[white]%}SSH%F{5}]$USERPRMT"
 		if [ $terminfo[colors] -lt 16 ]; then
 			# An empty if is a syntax error in some shells
-			USERPRMT="(SSH) $USRPRMT"
+			USERPRMT="[SSH]$USRPRMT"
 		fi
 	fi
 	;;
@@ -148,15 +158,14 @@ case `basename $RUNNING_SHELL` in
 esac
 
 # Apply the actual prompts for root and users
-if [ "$UID" -eq "$ROOT_UID" ]; then
+if [ -n "$ROOTPRMT" ] && [ "$UID" -eq "$ROOT_UID" ]; then
 	PS1="$ROOTPRMT"
-else
+elif [ -n "$USERPRMT" ]; then
 	PS1="$USERPRMT"
 fi
 
 #####################################################
-# General aliases to shorten commands/make other OS
-# commands available (coming fron windows)
+# General aliases
 #####################################################
 alias ls='ls --color=auto'
 alias sl='ls -lr'
@@ -226,7 +235,6 @@ alias Syu='sudo pacman -Syu'
 alias pacS='sudo pacman -S'
 alias pacR='sudo pacman -Rs'
 alias pacs='pacman -Ss'
-alias Syua='yaourt -Syua'
 
 export GOPATH=$HOME/projects/gocode
 export PATH=$PATH:$GOPATH/bin

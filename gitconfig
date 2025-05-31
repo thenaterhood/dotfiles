@@ -9,3 +9,6 @@
     cm = commit -m
     cam = commit -am
     s = status
+[user]
+	email = nate@thenaterhood.com
+	name = Nate Levesque
