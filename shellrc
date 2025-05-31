@@ -20,6 +20,8 @@ precmd () {
 export EDITOR=vim
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin/shellzilla:$HOME/.local/share/gem/ruby/3.3.0/bin
 
+NUM_COLORS_AVAILABLE=$(tput colors 2>/dev/null || echo 256)
+
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
 	export TERM=xterm-256color
 fi
@@ -98,16 +100,16 @@ ufsshfs(){
 #####################################################
 HISTFILE=~/.zsh_histfile
 
-case $(basename $RUNNING_SHELL) in
+case $(basename "$RUNNING_SHELL") in
 	"bash"|"-bash")
 	# Intermingle with zsh
-	HISTFILESIZE=10000
+	HISTFILESIZE=12000
 	HISTCONTROL=ignoreboth:erasedups
 
-	ROOTPRMT="$RED[\h] $RED\\w [sh]\\$ $NORMAL"
-	USERPRMT="$PURPLE[$NORMAL$BGREY\u@\h$PURPLE] $NORMAL$IBBLUE\\w\n$NORMAL$BWHITE[sh]\$ $NORMAL"
+	ROOTPRMT="${RED}[\h] $RED\\w [sh]\\$ $NORMAL"
+	USERPRMT="${PURPLE}[$NORMAL$BGREY\u@\h$PURPLE] $NORMAL$IBBLUE\\w\n$NORMAL${BWHITE}[sh]\$ $NORMAL"
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="$PURPLE[$BWHITE"SSH"$PURPLE]$USERPRMT"
+		USERPRMT="${PURPLE}[${BWHITE}SSH${PURPLE}]$USERPRMT"
 	fi
 	;;
 
@@ -119,10 +121,11 @@ case $(basename $RUNNING_SHELL) in
 	# Set up the shell
 	autoload -U colors && colors
 	autoload -Uz vcs_info # enable vcs_info
-	zstyle ':completion:*' completer _complete _ignored _approximate
-	zstyle :compinstall filename $HOME/.zshrc
-
 	autoload -Uz compinit
+
+	zstyle ':completion:*' completer _complete _ignored _approximate
+	zstyle :compinstall filename "$HOME/.zshrc"
+
 	compinit
 	bindkey -v
 	bindkey "^R" history-incremental-search-backward
@@ -130,27 +133,27 @@ case $(basename $RUNNING_SHELL) in
 	setopt APPEND_HISTORY
 	setopt HIST_SAVE_NO_DUPS
 	setopt PROMPT_SUBST
-	SAVEHIST=10000
-	ROOTPRMT="%{$fg_bold[red]%}[%m] %~ #%{$reset_color%} "
 	# Prefacing a command with a space doesnt put it in history
 	setopt histignorespace
+
+	SAVEHIST=10000
+	ROOTPRMT="%{${fg_bold[red]}%}[%m] %~ #%{$reset_color%} "
+
 	zstyle ':vcs_info:*' formats ' %F{5}[%F{4}%s:%F{white}%b%f%F{5}]' # git(main)
 
-	USERPRMT='%F{5}[%{$fg_bold[grey]%}%n@%m%F{5}] %F{4}%3~${vcs_info_msg_0_} %f'$'\n''%B\$ %b'
+	USERPRMT='%F{5}[%{${fg_bold[grey]}%}%n@%m%F{5}] %F{4}%3~${vcs_info_msg_0_} %f'$'\n''%B\$ %b'
 	RPROMPT='%{$fg_bold[red]%}%(?..%B(%?%)%b)%{$reset_color%}'
 
-	if [ $terminfo[colors] -lt 16 ]; then
+	if (( NUM_COLORS_AVAILABLE < 16 )); then
 		# If you want to change the prompt if the terminal has less than
 		# 16 colors, do it here.
-		# An empty if is a syntax error in some shells
-		USERPRMT='[%n@%m] %~$'\n'%B ${vcs_info_msg_0_}%f'$'\n''%B\$ %b'
+		USERPRMT='[%n@%m] %~%B${vcs_info_msg_0_}%f'$'\n''%B\$ %b'
 	fi
 
 	if [ $SSH_SESS -eq 1 ]; then
-		USERPRMT="%F{5}[%{$fg_bold[white]%}SSH%F{5}]$USERPRMT"
-		if [ $terminfo[colors] -lt 16 ]; then
-			# An empty if is a syntax error in some shells
-			USERPRMT="[SSH]$USRPRMT"
+		USERPRMT="%F{5}[%{${fg_bold[white]}%}SSH%F{5}]$USERPRMT"
+		if (( NUM_COLORS_AVAILABLE < 16 )); then
+			USERPRMT="[SSH]$USERPRMT"
 		fi
 	fi
 	;;
