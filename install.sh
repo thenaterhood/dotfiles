@@ -32,13 +32,6 @@ function error()
     exit 1
 }
 
-function checkFor() # $command - check the command is available
-{
-    if [ ! `command -v $1` ]; then
-        error "$1 is required for this script."
-    fi
-}
-
 function installDotfile() # $destination $target
 {
     target=$2
@@ -72,11 +65,6 @@ function installSystemfile() # $original $target
 
     backUpFile "$target"
     sudo cp "$original" "$target"
-}
-
-function checkForRoot()
-{
-    return [ $UID -eq 0 ]
 }
 
 function usage()
@@ -126,12 +114,12 @@ while read p; do
     original=$(echo $p | awk '{print $1}')
     target=$(echo $p | awk '{print $2}')
 
-    if [ $(expr match "$target" '$HOME') -gt 0 ]; then
+    if [ $(expr "$target" : '$HOME') -gt 0 ]; then
         target=$(echo $target | sed -e s:'$HOME':$DEST:g)
         installDotfile $original $target
     fi
 
-    if [ $(expr match "$target" '$ROOT') -gt 0 ]; then
+    if [ $(expr "$target" : '$ROOT') -gt 0 ]; then
         [ $DOSYSTEM = true ] && installSystemfile $original $target
     fi
 
